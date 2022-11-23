@@ -3,6 +3,7 @@
 //Input: Graph g
 //Output: labeling of the edges on G as Discovery and cross edges
 void BFSTraversal(Graph g) {
+
     /* for each (Vertex v: g.vertices()):
             setLabel(v, UNEXPLORED)
         for each (Edge e: G.edges()):
@@ -11,8 +12,20 @@ void BFSTraversal(Graph g) {
             if (getLabel(v) == UNEXPLORED)
                 BFS(g, v)
         }
-
     */
+
+   for (Vertex v: g.getVertices()) {
+        g.setLabel(v, "UNEXPLORED");
+        for (size_t i = 0; i < v.edges.size(); ++i) {
+            g.setLabel(v.edges[i], "UNEXPLORED");
+        }
+   }
+   for (Vertex v : g.getVertices()) {
+        if (g.getLabel(v) == "UNEXPLORED") {
+            helperBFS(g, v);
+        }
+   }
+   
 }
 
 void helperBFS(Graph g, Vertex v) {
@@ -34,4 +47,27 @@ void helperBFS(Graph g, Vertex v) {
             }
         }
     */
+   std::queue<Vertex> q;
+   g.setLabel(v, "VISITED");
+   q.push(v);
+
+   while (!q.empty()) {
+        Vertex v_temp = q.front();
+        q.pop();
+
+        for (Vertex w : g.getAdjacents(v)) {
+
+            if (g.getLabel(w) == "UNEXPLORED") {
+                
+                //find where edges in w and v where v has w and w has v
+                //set the labels of those edges equal to "DISCOVERY"
+                g.setLabel(v, w, "DISCOVERY");
+                g.setLabel(w, "VISITED");
+                q.push(w);
+            }   else if (g.getLabel(v, w) == "UNEXPLORED") {
+                g.setLabel(v, w, "CROSS");
+            }
+            
+        }
+   }
 }
