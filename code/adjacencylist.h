@@ -21,7 +21,8 @@ class Graph {
     };
 
     public:
-        void insertVertices(std::string filename);
+        void insertVertices();
+        void translateData(const std::string& datainput, const std::string& dataoutput);
         
     private:
         std::vector<Vertex> vertices;
