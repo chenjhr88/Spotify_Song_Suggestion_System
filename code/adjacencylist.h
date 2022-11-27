@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iostream>
 
 class Graph {
     struct Vertex {
@@ -20,7 +21,7 @@ class Graph {
     };
 
     public:
-        void insertVertices();
+        void insertVertices(std::string filename);
         
     private:
         std::vector<Vertex> vertices;
