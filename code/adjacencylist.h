@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+using namespace std;
 
 class Graph {
     struct Vertex {
@@ -21,6 +22,8 @@ class Graph {
     };
 
     public:
+        std::vector<std::vector<int>> buildAdjacencyMatrix(std::vector<std::vector<std::string>> my_input);
+        bool contains(std::vector<std::string> my_vec, std::string item_looking);
         void insertVertices();
         void translateData(const std::string& datainput, const std::string& dataoutput);
         
