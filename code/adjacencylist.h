@@ -2,29 +2,37 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
+#include <fstream>
 using namespace std;
 
+struct Vertex {
+    //this int will help identify what vertex we're looking at
+    int vert_num;
+    //insert characteristics
+    double dancabililty;
+    double popularity;
+    double energy;
+    std::string song_name;
 
+    //this will be blank at default
+    std::string label;
+
+    //have each vertex hold its edges
+    std::vector<Edge> edges;
+};
+struct Edge {
+    double threshold;
+    
+    //where the edge is pointing to
+    Vertex dest;
+
+    //this will be set to blank at default
+    std::string label;
+
+    //common characteristic
+};
 
 class Graph {
-    struct Edge {
-        double threshold;
-        
-        //common characteristic
-    };
-    struct Vertex {
-        int vert_num;
-        std::string song_name;
-        std::string label;
-
-        std::vector<Edge> edges;
-        //insert characteristics
-        double dancabililty;
-        double popularity;
-        double energy;
-    };
-
 
 
     public:
@@ -33,10 +41,25 @@ class Graph {
         void insertVertices();
         void translateData(const std::string& datainput, const std::string& dataoutput);
 
+
+        //getting vertex, vertices, and the adjacent vertices of selected vertex
+        Vertex getVertex(int i);
+        std::vector<Vertex> getVertices();
+        std::vector<Vertex> getAdjacents(Vertex v);
+
+        //label functions for setting label for vertex and edges
+        std::string getLabel(Vertex v);
+        void setLabel(Vertex& v, std::string label_str);
+        std::string getLabel(Edge e);
+        void setLabel(Edge& e, std::string label_str);
+
+
+        std::string getLabel(Vertex v, Vertex w);
+        std::string setLabel(Vertex& v, Vertex& w, std::string label_str);
  
     private:
         std::vector<Vertex> vertices;
         //index represents vertex number
-        std::vector<Edge> edges;
+        //could put vector of edges here, but would have to be 2D vector
         
 };
