@@ -6,8 +6,8 @@ void Graph::insertVertices() {
     //  split string by ',' or ' '
     //  string to int (stoi)
     translateData("genres_v2.csv", "data.csv");
-    std::ifstream ifs{"data.csv"};
-
+    std::ifstream ifs("data.csv");
+    std::string to_input = "";
     while (ifs >> to_input) {
         std::vector<std::string> parse_line = to_input.split(",");
         struct Vertex insert = {parse_line.at(0), parse_line.at(1), stod(parse_line.at(2)), stod(parse_line.at(3)), stod(parse_line.at(4))};
@@ -22,10 +22,12 @@ void Graph::insertVertices() {
 }
 
 void translateData(const std::string& datainput, const std::string& dataoutput) {
-    std::ifstream ifs{datainput};
-    std::ofstream ofs{dataoutput};
+    std::ifstream ifs(datainput);
+    std::ofstream ofs(dataoutput);
+
     int num = 0;
     bool skip = true;
+    std::string to_input = "";
     while (ifs >> to_input) {
         if (!skip) {
             std::vector<std::string> parse_line = to_input.split(",");
