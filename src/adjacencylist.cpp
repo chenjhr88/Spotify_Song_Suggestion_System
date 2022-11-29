@@ -101,9 +101,21 @@ std::vector<Vertex> Graph::getVertices() {
     return vertices;
 }
 
+Vertex Graph::findVertex(int vert_num) {
+    for (size_t i = 0; i < vertices.size(); ++i) {
+        if (vertices.at(i).vert_num == vert_num) {
+            return vertices.at(i);
+        }
+    }
+
+    return vertices.at(0);
+}
+
+
 std::vector<Vertex> Graph::getAdjacents(Vertex v) {
     std::vector<Vertex> adjacents;
     for (size_t i = 0; i < v.edges.size(); ++i) {
+
         adjacents.push_back(v.edges.at(i).dest);
     }
 
@@ -136,7 +148,8 @@ std::string Graph::getLabel(Vertex v, Vertex w) {
 
     std::string v_edge_label = "";
     for (size_t i = 0; i < v.edges.size(); ++i) {
-        if (v.edges.at(i).dest.vert_num == w.vert_num) {
+        Vertex dest_vert = g.findVertex(v.edges.at(i).dest);
+        if (dest_vert.vert_num == w.vert_num) {
             w_in_v = true;
             v_edge_label = v.edges.at(i).label;
         }
@@ -149,7 +162,8 @@ std::string Graph::getLabel(Vertex v, Vertex w) {
     bool v_in_w = false;
     std::string w_edge_label = "";
     for (size_t i = 0; i < w.edges.size(); ++i) {
-        if (w.edges.at(i).dest.vert_num == v.vert_num) {
+        Vertex dest_vert = g.findVertex(w.edges.at(i).dest);
+        if (dest_vert.vert_num == v.vert_num) {
             v_in_w = true;
             w_edge_label = w.edges.at(i).label;
         }
@@ -173,7 +187,8 @@ std::string Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
     bool w_in_v = false;
     int v_edge_idx = -1;
     for (size_t i = 0; i < v.edges.size(); ++i) {
-        if (v.edges.at(i).dest.vert_num == w.vert_num) {
+        Vertex dest_vert = g.findVertex(v.edges.at(i).dest);
+        if (dest_vert.vert_num == w.vert_num) {
             w_in_v = true;
             v_edge_idx = (int) i;
         }
@@ -187,7 +202,8 @@ std::string Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
     int w_edge_idx = -1;
     std::string w_edge_label = "";
     for (size_t i = 0; i < w.edges.size(); ++i) {
-        if (w.edges.at(i).dest.vert_num == v.vert_num) {
+        Vertex dest_vert = g.findVertex(w.edges.at(i).dest);
+        if (dest_vert.vert_num == v.vert_num) {
             v_in_w = true;
             w_edge_idx = (int) i;
         }

@@ -5,6 +5,20 @@
 #include <fstream>
 using namespace std;
 
+
+
+struct Edge {
+    double threshold;
+    
+    //where the edge is pointing to (will be vert_num)
+    std::string dest;
+
+    //this will be set to blank at default
+    std::string label;
+
+    //common characteristic
+};
+
 struct Vertex {
     //this int will help identify what vertex we're looking at
     int vert_num;
@@ -20,17 +34,7 @@ struct Vertex {
     //have each vertex hold its edges
     std::vector<Edge> edges;
 };
-struct Edge {
-    double threshold;
-    
-    //where the edge is pointing to
-    Vertex dest;
 
-    //this will be set to blank at default
-    std::string label;
-
-    //common characteristic
-};
 
 class Graph {
 
@@ -44,6 +48,7 @@ class Graph {
 
         //getting vertex, vertices, and the adjacent vertices of selected vertex
         Vertex getVertex(int i);
+        Vertex findVertex(int vert_num);
         std::vector<Vertex> getVertices();
         std::vector<Vertex> getAdjacents(Vertex v);
 
