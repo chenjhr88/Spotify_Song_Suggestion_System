@@ -6,11 +6,16 @@ Our proposed final project is to recommend new songs for people using Spotify.
 
 ## Code
 
-All code files can be found in the `code/` directory. To run the code:
+All code files can be found in the `src/` directory. To run the code:
 
-1. 
-2.
-3.
+To build make file:
+1. mkdir build
+2. cd build
+3. cmake ..
+
+Then run:
+4. make
+5. ./test or ./main
 
 ## Data
 
