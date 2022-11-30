@@ -45,6 +45,8 @@ class Graph {
         void insertVertices();
         void translateData(const std::string& datainput, const std::string& dataoutput);
 
+        void SplitString(const std::string & str1, char sep, std::vector<std::string> &fields);
+
 
         //getting vertex, vertices, and the adjacent vertices of selected vertex
         Vertex getVertex(int i);
