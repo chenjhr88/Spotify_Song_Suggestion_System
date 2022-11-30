@@ -43,7 +43,7 @@ class Graph {
         Graph();
         std::vector<std::vector<int>> buildAdjacencyMatrix(std::vector<std::vector<std::string>> my_input);
         bool contains(std::vector<std::string> my_vec, std::string item_looking);
-        void insertVertices();
+        void insertVertices(std::string filename);
         void translateData(const std::string& datainput, const std::string& dataoutput);
 
         void SplitString(const std::string & str1, char sep, std::vector<std::string> &fields);
