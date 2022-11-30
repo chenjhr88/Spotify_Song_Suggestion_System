@@ -40,6 +40,7 @@ class Graph {
 
 
     public:
+        Graph();
         std::vector<std::vector<int>> buildAdjacencyMatrix(std::vector<std::vector<std::string>> my_input);
         bool contains(std::vector<std::string> my_vec, std::string item_looking);
         void insertVertices();
@@ -47,6 +48,9 @@ class Graph {
 
         void SplitString(const std::string & str1, char sep, std::vector<std::string> &fields);
 
+
+        void insertVertex(Vertex v);
+        void insertEdge(int v1, int v2);
 
         //getting vertex, vertices, and the adjacent vertices of selected vertex
         Vertex getVertex(int i);

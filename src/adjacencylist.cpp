@@ -11,6 +11,9 @@ using namespace std;
 // { "SongName F", "Danceability 7"}, \
 // { "SongName G", "Danceability 34"}, \
 // { "SongName H", "Danceability 20"}};
+Graph::Graph() {
+
+}
 
 std::vector<std::vector<int>> Graph::buildAdjacencyMatrix(std::vector<std::vector<string>> inputted_vector) {
     vector<vector<int>> adjacency_matrix;
@@ -98,6 +101,20 @@ void Graph::translateData(const std::string& datainput, const std::string& datao
 }
 
 
+void Graph::insertVertex(Vertex v) {
+    vertices.push_back(v);
+}
+
+void Graph::insertEdge(int v1, int v2) {
+    Edge e1 = {0, v2, ""};
+    Edge e2 = {0, v1, ""};
+
+    vertices.at(v1).edges.push_back(e1);
+    vertices.at(v2).edges.push_back(e2);
+
+    std::cout << vertices.at(v1).edges.at(0).dest << std::endl;
+}
+
 //
 //FUNCTIONS FOR ACCESSING GRAPH VERTICES AND EDGES
 //
@@ -128,9 +145,10 @@ Vertex Graph::findVertex(int vert_num) {
 
 std::vector<Vertex> Graph::getAdjacents(Vertex v) {
     std::vector<Vertex> adjacents;
+    std::cout << "at " << v.vert_num << "There are " << v.edges.size() << " edges" << std::endl;
     for (size_t i = 0; i < v.edges.size(); ++i) {
-        Vertex v = findVertex(v.edges.at(i).dest);
-        adjacents.push_back(v);
+        Vertex v1 = findVertex(v.edges.at(i).dest);
+        adjacents.push_back(v1);
     }
 
     return adjacents;
@@ -158,6 +176,7 @@ void Graph::setLabel(Edge& e, std::string label_str) {
 
 //for edges that are between two selected vertices
 std::string Graph::getLabel(Vertex v, Vertex w) {
+    std::cout << "get the Label between " << v.vert_num << " and " << w.vert_num << std::endl;
     bool w_in_v = false;
 
     std::string v_edge_label = "";
