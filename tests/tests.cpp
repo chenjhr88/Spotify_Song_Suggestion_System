@@ -22,7 +22,7 @@ TEST_CASE("test1", "[valgrind][weight=1]")
 TEST_CASE("Read From CSV Test", "[valgrind][weight=2][csv]")
 {
     Graph g;
-    g.insertVertices("../tests/test_data.csv");
+    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
     vector<Edge> edge;
     Vertex expected = {1,0.8,0,0.8, "song 1" , "", edge};
 

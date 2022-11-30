@@ -51,43 +51,43 @@ bool Graph::contains(std::vector<std::string> my_vec, std::string item_looking) 
     return false;
 }
 
-void Graph::insertVertices(string filename) {
-    //read csv file
-    //  ifstream to read file
-    //  split string by ',' or ' '
-    //  string to int (stoi)
-    //translateData("genres_v2.csv", "data.csv");
-    std::cout << "START VERTEX INSERTION" << std::endl;
-    ifstream ifs(filename);
-    int num = 0;
+/**
+ * This function will insert vertices from the given file and input them into the graph's vector of vertices
+ * @param string filename name of the file to be read and parsed for data
+ */
+void Graph::insertVertices(string filename, string filewrite) {
+    // read csv file
+    // ifstream to read file
+    // split string by ',' or ' '
+    // string to int (stoi)
+    // read each line, each line represnts a vertex
+    // get the song name + characteristics (dancability, popularity, energy)
+    // create the vertex struct
+    // add the vertex to the vertices vector
+    translateData(filename, filewrite);
+    ifstream ifs(filewrite);
     if (ifs.good()) {
-        cout << "file good " << endl;
-        bool skip = true;
         for (string line ; getline(ifs, line); ) {
-            if (skip) {
-                skip = false;
-                continue;
-            }
-            std::cout << "entered for loop" << endl;
             vector<string> insert;
             for(int i = 0; i < (int) insert.size(); i++) {
                 cout << insert.at(i) << endl;
             }
             SplitString(line, ',', insert);
             std::vector<Edge> edges;
-            Vertex to_insert = {num, (double) std::stoi(insert.at(0)), 0, (double) std::stoi(insert.at(1)), insert.at(insert.size() - 3), "", edges};
+            Vertex to_insert = {std::stoi(insert.at(0)), (double) std::stoi(insert.at(1)), 0, (double) std::stoi(insert.at(2)), insert.at(3), "", edges};
             vertices.push_back(to_insert);
-            std::cout << "inserted" << std::endl;
-            num++;
         }
     }
-    //read each line, each line represnts a vertex
-    //get the song name + characteristics (dancability, popularity, energy)
-    //create the vertex struct
-    //add the vertex to the vertices vector
+    
 
 }
 
+/** 
+ * Splits a string by a character and places into a std::vector<std::string> passed in by reference
+ * @param std::string str1 string to be split
+ * @param char sep char to define where string will be split
+ * @param std::vector<std::string> fields vector of where split strings will be placed
+ */ 
 void Graph::SplitString(const std::string & str1, char sep, std::vector<std::string> &fields) {
     std::string str = str1;
     std::string::size_type pos;
@@ -98,17 +98,21 @@ void Graph::SplitString(const std::string & str1, char sep, std::vector<std::str
     fields.push_back(str);
 }
 
+/** 
+ * Given a data input file and data output file, this function will read and parse needed data from the input file into the data output file
+ * @param dataintput name of file to be read
+ * @param dataoutput name of file to be written
+ */
 void Graph::translateData(const std::string& datainput, const std::string& dataoutput) {
     std::ifstream ifs{datainput};
     std::ofstream ofs{dataoutput};
     int num = 0;
     bool skip = true;
-    string to_input;
-    while (ifs >> to_input) {
+    for (string line ; getline(ifs, line);) {
         if (!skip) {
             std::vector<std::string> parse_line;
-            SplitString(to_input, ',', parse_line);
-            ofs << num << "," << parse_line.at(parse_line.size() - 1) << "," << parse_line.at(0) << "," << 0 << "," << parse_line.at(1) << std::endl;
+            SplitString(line, ',', parse_line);
+            ofs << num << "," << parse_line.at(0) << "," << 0 << "," << parse_line.at(parse_line.size() - 3) << "," << parse_line.at(1)  <<  std::endl;
             num++;
         } else {
             skip = false;
@@ -116,7 +120,10 @@ void Graph::translateData(const std::string& datainput, const std::string& datao
     }
 }
 
-
+/**
+ * inserts a vertex into the graph
+ * @param v vertex to be inserted
+ */
 void Graph::insertVertex(Vertex v) {
     vertices.push_back(v);
 }
