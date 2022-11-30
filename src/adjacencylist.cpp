@@ -48,7 +48,7 @@ bool Graph::contains(std::vector<std::string> my_vec, std::string item_looking) 
     return false;
 }
 
-vector<vector<string>> Graph::insertVertices() {
+void Graph::insertVertices() {
     //read csv file
     //  ifstream to read file
     //  split string by ',' or ' '
@@ -61,7 +61,7 @@ vector<vector<string>> Graph::insertVertices() {
         SplitString(line, ',', insert);
         out.push_back(insert);
     }
-    return out;
+    //return out;
     //read each line, each line represnts a vertex
     //get the song name + characteristics (dancability, popularity, energy)
     //create the vertex struct
@@ -69,7 +69,7 @@ vector<vector<string>> Graph::insertVertices() {
 
 }
 
-void SplitString(const std::string & str1, char sep, std::vector<std::string> &fields) {
+void Graph::SplitString(const std::string & str1, char sep, std::vector<std::string> &fields) {
     std::string str = str1;
     std::string::size_type pos;
     while((pos=str.find(sep)) != std::string::npos) {
@@ -77,7 +77,6 @@ void SplitString(const std::string & str1, char sep, std::vector<std::string> &f
         str.erase(0,pos+1);  
     }
     fields.push_back(str);
-    return fields.size();
 }
 
 void Graph::translateData(const std::string& datainput, const std::string& dataoutput) {
@@ -88,7 +87,8 @@ void Graph::translateData(const std::string& datainput, const std::string& datao
     string to_input;
     while (ifs >> to_input) {
         if (!skip) {
-            std::vector<std::string> parse_line = to_input.split(",");
+            std::vector<std::string> parse_line;
+            SplitString(to_input, ',', parse_line);
             ofs << num << "," << parse_line.at(parse_line.size() - 1) << "," << parse_line.at(0) << "," << 0 << "," << parse_line.at(1) << std::endl;
             num++;
         } else {
@@ -104,10 +104,11 @@ void Graph::translateData(const std::string& datainput, const std::string& datao
 
 //Get the vertex
 Vertex Graph::getVertex(int i) {
-    if (i >= 0 && i < vertices.size()) {
+    if (i >= 0 && i < (int) vertices.size()) {
         return vertices.at(i);
     }
     std::cout << "i is too low or high!" << std::endl;
+    return Vertex();
 }
 
 std::vector<Vertex> Graph::getVertices() {
