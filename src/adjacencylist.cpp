@@ -48,20 +48,20 @@ bool Graph::contains(std::vector<std::string> my_vec, std::string item_looking) 
     return false;
 }
 
-void Graph::insertVertices() {
+vector<vector<string>> Graph::insertVertices(string filename) {
     //read csv file
     //  ifstream to read file
     //  split string by ',' or ' '
     //  string to int (stoi)
     translateData("genres_v2.csv", "data.csv");
-    ifstream ifs("data.csv");
+    ifstream ifs(filename);
     vector<vector<string>> out;
     for (string line ; getline(ifs, line); ) {
         vector<string> insert;
         SplitString(line, ',', insert);
         out.push_back(insert);
     }
-    //return out;
+    return out;
     //read each line, each line represnts a vertex
     //get the song name + characteristics (dancability, popularity, energy)
     //create the vertex struct
