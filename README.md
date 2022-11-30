@@ -8,14 +8,12 @@ Our proposed final project is to recommend new songs for people using Spotify.
 
 All code files can be found in the `src/` directory. To run the code:
 
-To build make file:
-1. mkdir build
-2. cd build
-3. cmake ..
-
-Then run:
-4. make
-5. ./test or ./main
+To build  and run make file:
+1. 'mkdir build'
+2. 'cd build'
+3. 'cmake ..'
+4. 'make'
+5. './test' or './main'
 
 ## Data
 
