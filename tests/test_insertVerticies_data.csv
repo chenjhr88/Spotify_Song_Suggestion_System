@@ -1,15 +1,4 @@
-<<<<<<< HEAD
 danceability,energy,key,loudness,mode,speechiness,acousticness,instrumentalness,liveness,valence,tempo,type,id,uri,track_href,analysis_url,duration_ms,time_signature,genre,song_name,Unnamed: 0,title
 0.8,0.8,2,-7,1,0.4,0.1,0.1,0.1,0.4,157,audio_features,2Vc6NJ9PW9gD9q343XFRKx,spotify:track:2Vc6NJ9PW9gD9q343XFRKx,https://api.spotify.com/v1/tracks/2Vc6NJ9PW9gD9q343XFRKx,https://api.spotify.com/v1/audio-analysis/2Vc6NJ9PW9gD9q343XFRKx,124539,4,Dark Trap,song 1,,
 0.7,0.4,8,-7,1,0.1,0.4,0.0,0.1,0.1,115,audio_features,7pgJBLVz5VmnL7uGHmRj6p,spotify:track:7pgJBLVz5VmnL7uGHmRj6p,https://api.spotify.com/v1/tracks/7pgJBLVz5VmnL7uGHmRj6p,https://api.spotify.com/v1/audio-analysis/7pgJBLVz5VmnL7uGHmRj6p,224427,4,Dark Trap,song 2,,
 0.9,0.8,5,-4,1,0.1,0.0,4,0.3,0.1,218,audio_features,0vSWgAlfpye0WCGeNmuNhy,spotify:track:0vSWgAlfpye0WCGeNmuNhy,https://api.spotify.com/v1/tracks/0vSWgAlfpye0WCGeNmuNhy,https://api.spotify.com/v1/audio-analysis/0vSWgAlfpye0WCGeNmuNhy,98821,4,Dark Trap,song 3,,
-=======
-cheese,10
-dog,20
-apple,50 
-horse,99 
-cat,40
-weasel,7
-brick,34
-table,20
->>>>>>> eb6e19f51176c58a8175d8c603f5c590e7174cf4
