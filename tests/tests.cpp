@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 //set compiler path to fix?
+//lmao nevermind
 #include <iostream>
 #include <fstream>
 #include <ctype.h>
@@ -12,6 +13,8 @@
 
 TEST_CASE("test1", "[valgrind][weight=1]")
 {
+    std::vector<std::vector<string>> test_inputted_vector = 
+    buildAdjacencyMatrix = 
     REQUIRE("HELLO" == "HELLO");
     //test adjacency matrix 1
 }
