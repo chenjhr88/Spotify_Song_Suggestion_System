@@ -15,6 +15,7 @@ All code files can be found in the `code/` directory. To run the code:
 ## Data
 
 Our test data was taken using Spotify API and translated into a CSV file, stored as a .csv file in the `data/` directory.
+https://www.kaggle.com/datasets/mrmorj/dataset-of-songs-in-spotify
 
 ## Documents
 
