@@ -11,7 +11,7 @@
 #include <utility>
 //working on - jason
 
-TEST_CASE("insertVertecies", "[valgrind][weight=1]") {
+TEST_CASE("insertVertices", "[valgrind][weight=1]") {
     std::vector<std::vector<string>> test_read = insertVertices("test_data.csv");
     std::vector<std::vector<string>> expected = 
     {{ "cheese", "10"}, 
@@ -48,7 +48,20 @@ TEST_CASE("buildAdjMatrix_simple1", "[valgrind][weight=1]")
 
 TEST_CASE("buildAdjMatrix_simple2", "[valgrind][weight=1]")
 {
-    REQUIRE("HELLO" == "HELLO");
+    std::vector<std::vector<string>> test_inputted_vector = 
+    {{ "a", "11"}, 
+    { "b", "22"}, 
+    { "c", "56"}, 
+    { "d", "24"}, 
+    { "e", "21"}, 
+    { "f", "25"}, 
+    { "g", "14"},
+    { "h", "24"}};
+    std::vector<std::vector<int>> test2 = buildAdjacencyMatrix(test_inputted_vector);
+    std::vector<std::vector<int>> expectedAdjMatrix2 = 
+    {{}};
+    REQUIRE(test2 == expectedAdjMatrix2);
+    REQUIRE(test2.size() == test_inputted_vector.size());
     //test adjacency matrix 2
 }
 
