@@ -129,8 +129,8 @@ Vertex Graph::findVertex(int vert_num) {
 std::vector<Vertex> Graph::getAdjacents(Vertex v) {
     std::vector<Vertex> adjacents;
     for (size_t i = 0; i < v.edges.size(); ++i) {
-
-        adjacents.push_back(v.edges.at(i).dest);
+        Vertex v = findVertex(v.edges.at(i).dest);
+        adjacents.push_back(v);
     }
 
     return adjacents;
@@ -162,7 +162,7 @@ std::string Graph::getLabel(Vertex v, Vertex w) {
 
     std::string v_edge_label = "";
     for (size_t i = 0; i < v.edges.size(); ++i) {
-        Vertex dest_vert = g.findVertex(v.edges.at(i).dest);
+        Vertex dest_vert = findVertex(v.edges.at(i).dest);
         if (dest_vert.vert_num == w.vert_num) {
             w_in_v = true;
             v_edge_label = v.edges.at(i).label;
@@ -176,7 +176,7 @@ std::string Graph::getLabel(Vertex v, Vertex w) {
     bool v_in_w = false;
     std::string w_edge_label = "";
     for (size_t i = 0; i < w.edges.size(); ++i) {
-        Vertex dest_vert = g.findVertex(w.edges.at(i).dest);
+        Vertex dest_vert = findVertex(w.edges.at(i).dest);
         if (dest_vert.vert_num == v.vert_num) {
             v_in_w = true;
             w_edge_label = w.edges.at(i).label;
@@ -197,11 +197,11 @@ std::string Graph::getLabel(Vertex v, Vertex w) {
 
 }
 
-std::string Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
+void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
     bool w_in_v = false;
     int v_edge_idx = -1;
     for (size_t i = 0; i < v.edges.size(); ++i) {
-        Vertex dest_vert = g.findVertex(v.edges.at(i).dest);
+        Vertex dest_vert = findVertex(v.edges.at(i).dest);
         if (dest_vert.vert_num == w.vert_num) {
             w_in_v = true;
             v_edge_idx = (int) i;
@@ -209,14 +209,14 @@ std::string Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
     }
     if (!w_in_v) {
         std::cout << "vertex v doesn't connect to vertex w!" << std::endl;
-        return "ERROR0";
+        return;
     }
 
     bool v_in_w = false;
     int w_edge_idx = -1;
     std::string w_edge_label = "";
     for (size_t i = 0; i < w.edges.size(); ++i) {
-        Vertex dest_vert = g.findVertex(w.edges.at(i).dest);
+        Vertex dest_vert = findVertex(w.edges.at(i).dest);
         if (dest_vert.vert_num == v.vert_num) {
             v_in_w = true;
             w_edge_idx = (int) i;
@@ -225,9 +225,10 @@ std::string Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
 
     if (!v_in_w) {
         std::cout << "vertex w doesn't connect to vertex v!" << std::endl;
-        return "ERROR1";
+        return;
     }
     
     v.edges.at(v_edge_idx).label = label_str;
     w.edges.at(w_edge_idx).label = label_str;
+
 }

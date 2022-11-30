@@ -11,7 +11,7 @@ struct Edge {
     double threshold;
     
     //where the edge is pointing to (will be vert_num)
-    std::string dest;
+    int dest;
 
     //this will be set to blank at default
     std::string label;
@@ -62,7 +62,7 @@ class Graph {
 
 
         std::string getLabel(Vertex v, Vertex w);
-        std::string setLabel(Vertex& v, Vertex& w, std::string label_str);
+        void setLabel(Vertex& v, Vertex& w, std::string label_str);
  
     private:
         std::vector<Vertex> vertices;

@@ -3,6 +3,6 @@
 #include <queue>
 
 
-void BFSTraversal(Graph g);
+int BFSTraversal(Graph g);
 
-void helperBFS(Graph g, Vertex v);
+void helperBFS(Graph g, Vertex v, int& num_nodes);
