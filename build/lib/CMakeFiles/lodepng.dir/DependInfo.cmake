@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/workspaces/cs225/final/cs225_final_proj/lib/lodepng/lodepng.cpp" "lib/CMakeFiles/lodepng.dir/lodepng/lodepng.cpp.o" "gcc" "lib/CMakeFiles/lodepng.dir/lodepng/lodepng.cpp.o.d"
+  "/workspaces/chenj/Documents/cs225/final/lib/lodepng/lodepng.cpp" "lib/CMakeFiles/lodepng.dir/lodepng/lodepng.cpp.o" "gcc" "lib/CMakeFiles/lodepng.dir/lodepng/lodepng.cpp.o.d"
   )
 
 # Targets to which this target links.
