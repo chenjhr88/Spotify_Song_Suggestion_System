@@ -62,6 +62,7 @@ TEST_CASE("test4", "[valgrind][weight=4]")
     //traversal
 }
 
+/*
 TEST_CASE("insertVertices", "[valgrind][weight=1]") {
     std::vector<std::vector<string>> test_read = insertVertices("test_data.csv");
     std::vector<std::vector<string>> expected = 
@@ -75,6 +76,7 @@ TEST_CASE("insertVertices", "[valgrind][weight=1]") {
     { "table", "20"}};
     REQUIRE(test_read == expected);
 }
+*/
 
 TEST_CASE("buildAdjMatrix_simple1", "[valgrind][weight=1]")
 {
