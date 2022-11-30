@@ -19,9 +19,15 @@ TEST_CASE("test1", "[valgrind][weight=1]")
     //test adjacency matrix 1
 }
 
-TEST_CASE("test2", "[valgrind][weight=2]")
+TEST_CASE("Read From CSV Test", "[valgrind][weight=2][csv]")
 {
-    REQUIRE(2 == 2);
+    Graph g;
+    g.insertVertices("../tests/test_data.csv");
+    vector<Edge> edge;
+    Vertex expected = {1,0.8,0,0.8, "song 1" , "", edge};
+
+    REQUIRE(g.getVertices().size() == 3);
+    REQUIRE(g.getVertex(0).song_name == expected.song_name);
     //test adjacency matrix 2
 }
 

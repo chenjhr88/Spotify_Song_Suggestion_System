@@ -1,5 +1,5 @@
 lib/CMakeFiles/cs225.dir/cs225/PNG.cpp.o: \
-  /workspaces/CS225/cs225_final_proj/lib/cs225/PNG.cpp \
+  /workspaces/chenj/Documents/cs225/final/lib/cs225/PNG.cpp \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/iostream \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -219,13 +219,13 @@ lib/CMakeFiles/cs225.dir/cs225/PNG.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/debug/safe_local_iterator.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/debug/safe_local_iterator.tcc \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/pstl/execution_defs.h \
-  /workspaces/CS225/cs225_final_proj/lib/lodepng/lodepng.h \
+  /workspaces/chenj/Documents/cs225/final/lib/lodepng/lodepng.h \
   /usr/include/string.h /usr/include/strings.h \
-  /workspaces/CS225/cs225_final_proj/lib/cs225/PNG.h \
-  /workspaces/CS225/cs225_final_proj/lib/cs225/HSLAPixel.h \
+  /workspaces/chenj/Documents/cs225/final/lib/cs225/PNG.h \
+  /workspaces/chenj/Documents/cs225/final/lib/cs225/HSLAPixel.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/sstream \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/sstream.tcc \
-  /workspaces/CS225/cs225_final_proj/lib/cs225/RGB_HSL.h \
+  /workspaces/chenj/Documents/cs225/final/lib/cs225/RGB_HSL.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/cmath \
   /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
   /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
