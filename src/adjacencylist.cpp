@@ -65,6 +65,7 @@ void Graph::insertVertices() {
     //get the song name + characteristics (dancability, popularity, energy)
     //create the vertex struct
     //add the vertex to the vertices vector
+    std::cout << "finish insertion" << std::endl;
 
 }
 
