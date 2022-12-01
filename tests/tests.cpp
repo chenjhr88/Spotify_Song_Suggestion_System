@@ -1,7 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
 //set compiler path to fix?
-//lmao nevermind
 #include <iostream>
 #include <fstream>
 #include <ctype.h>
