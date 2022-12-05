@@ -11,9 +11,7 @@ using namespace std;
 // { "SongName F", "Danceability 7"}, \
 // { "SongName G", "Danceability 34"}, \
 // { "SongName H", "Danceability 20"}};
-Graph::Graph() {
-
-}
+Graph::Graph() {}
 
 std::vector<std::vector<int>> Graph::buildAdjacencyMatrix(std::vector<std::vector<string>> inputted_vector) {
     vector<vector<int>> adjacency_matrix;
