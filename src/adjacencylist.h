@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <fstream>
 using namespace std;
 
@@ -37,8 +38,6 @@ struct Vertex {
 
 
 class Graph {
-
-
     public:
         Graph();
         std::vector<std::vector<int>> buildAdjacencyMatrix(std::vector<std::vector<std::string>> my_input);
@@ -74,3 +73,5 @@ class Graph {
         //could put vector of edges here, but would have to be 2D vector
         
 };
+
+string getSongRecommendation(Graph g, string songTitle);

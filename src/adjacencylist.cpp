@@ -73,7 +73,9 @@ void Graph::insertVertices(string filename, string filewrite) {
             SplitString(line, ',', insert);
             std::vector<Edge> edges;
             Vertex to_insert = {std::stoi(insert.at(0)), (double) std::stoi(insert.at(1)), 0, (double) std::stoi(insert.at(2)), insert.at(3), "", edges};
-            vertices.push_back(to_insert);
+            if (to_insert.song_name != "") {
+                vertices.push_back(to_insert);    
+            }
         }
     }
     
@@ -110,8 +112,10 @@ void Graph::translateData(const std::string& datainput, const std::string& datao
         if (!skip) {
             std::vector<std::string> parse_line;
             SplitString(line, ',', parse_line);
-            ofs << num << "," << parse_line.at(0) << "," << 0 << "," << parse_line.at(parse_line.size() - 3) << "," << parse_line.at(1)  <<  std::endl;
-            num++;
+            if (parse_line.at(parse_line.size() - 3) != "") {
+                ofs << num << "," << parse_line.at(0) << "," << 0 << "," << parse_line.at(parse_line.size() - 3) << "," << parse_line.at(1)  <<  std::endl;
+                num++;
+            }
         } else {
             skip = false;
         }
@@ -271,4 +275,32 @@ void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
     v.edges.at(v_edge_idx).label = label_str;
     w.edges.at(w_edge_idx).label = label_str;
 
+}
+
+/**
+ * prints out a song recommendation based off of the inputed graph and song title
+ * @param g Graph of all vertices and edges to generate a song recommendation
+ * @param songTitle Title of song that will generate song recommendations based on closeness on the graph
+ */
+string getSongRecommendation(Graph g, string songTitle) {
+    Vertex song_vertex;
+    song_vertex.vert_num = -1;
+    string songUpper = songTitle;
+    transform(songUpper.begin(), songUpper.end(), songUpper.begin(), ::toupper);
+    vector<Vertex> vertices = g.getVertices();
+
+    // update song_vertex to hold onto the vector that has the same song title as the inputted song
+    for (size_t i = 0; i < vertices.size(); i++) {
+        string tmp = vertices[i].song_name;
+        transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
+        if (tmp == songUpper) {
+            song_vertex = vertices[i];
+        }
+    }
+    // checks to see if song_vertex was updated. If the song title was not found within the list of vertices, the function will return and print a message
+    if (song_vertex.vert_num == -1) {
+        return songTitle + " was not found in the database. Please try another song title.";
+    }
+    string out = songTitle + " found within the database. Pulling up a song recommendation.";
+    return out;
 }
