@@ -172,7 +172,7 @@ void Graph::insertEdge(int v1, int v2) {
     vertices.at(v1).edges.push_back(e1);
     vertices.at(v2).edges.push_back(e2);
 
-    std::cout << vertices.at(v1).edges.at(0).dest << std::endl;
+    // std::cout << vertices.at(v1).edges.at(0).dest << std::endl;
 }
 
 //
@@ -206,7 +206,7 @@ Vertex Graph::findVertex(int vert_num) {
  */
 std::vector<Vertex> Graph::getAdjacents(Vertex v) {
     std::vector<Vertex> adjacents;
-    std::cout << "at " << v.vert_num << "There are " << v.edges.size() << " edges" << std::endl;
+    // std::cout << "at " << v.vert_num << " There are " << v.edges.size() << " edges" << std::endl;
     for (size_t i = 0; i < v.edges.size(); ++i) {
         Vertex v1 = findVertex(v.edges.at(i).dest);
         adjacents.push_back(v1);
@@ -257,7 +257,7 @@ void Graph::setLabel(Edge& e, std::string label_str) {
  * @param w vertex 2 of edge
  */
 std::string Graph::getLabel(Vertex v, Vertex w) {
-    std::cout << "get the Label between " << v.vert_num << " and " << w.vert_num << std::endl;
+    // std::cout << "get the Label between " << v.vert_num << " and " << w.vert_num << std::endl;
     bool w_in_v = false;
 
     std::string v_edge_label = "";
@@ -269,7 +269,7 @@ std::string Graph::getLabel(Vertex v, Vertex w) {
         }
     }
     if (!w_in_v) {
-        std::cout << "vertex v doesn't connect to vertex w!" << std::endl;
+        // std::cout << "vertex v doesn't connect to vertex w!" << std::endl;
         return "ERROR0";
     }
 
@@ -284,14 +284,14 @@ std::string Graph::getLabel(Vertex v, Vertex w) {
     }
     
     if (!v_in_w) {
-        std::cout << "vertex w doesn't connect to vertex v!" << std::endl;
+        // std::cout << "vertex w doesn't connect to vertex v!" << std::endl;
         return "ERROR1";
     }
 
     if (v_edge_label == w_edge_label) {
         return v_edge_label;
     }   else {
-        std::cout << "EDGE LABELS DON'T MATCH!" << std::endl;
+        // std::cout << "EDGE LABELS DON'T MATCH!" << std::endl;
         return "ERROR3";
     }
 
@@ -314,7 +314,7 @@ void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
         }
     }
     if (!w_in_v) {
-        std::cout << "vertex v doesn't connect to vertex w!" << std::endl;
+        // std::cout << "vertex v doesn't connect to vertex w!" << std::endl;
         return;
     }
 
@@ -330,7 +330,7 @@ void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
     }
 
     if (!v_in_w) {
-        std::cout << "vertex w doesn't connect to vertex v!" << std::endl;
+        // std::cout << "vertex w doesn't connect to vertex v!" << std::endl;
         return;
     }
     
@@ -345,8 +345,11 @@ void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
  * @param songTitle Title of song that will generate song recommendations based on closeness on the graph
  */
 string getSongRecommendation(Graph g, string songTitle) {
+    // create new song_vertex and set its vert_num to -1 for update comparisons
     Vertex song_vertex;
     song_vertex.vert_num = -1;
+    
+    // set song to upper case for comparison
     string songUpper = songTitle;
     transform(songUpper.begin(), songUpper.end(), songUpper.begin(), ::toupper);
     vector<Vertex> vertices = g.getVertices();
@@ -355,14 +358,19 @@ string getSongRecommendation(Graph g, string songTitle) {
     for (size_t i = 0; i < vertices.size(); i++) {
         string tmp = vertices[i].song_name;
         transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
+        // compare upper case song titles to see if they are the same
+        // if they are the same, set song_vertex to the current vertex
         if (tmp == songUpper) {
             song_vertex = vertices[i];
         }
     }
+
     // checks to see if song_vertex was updated. If the song title was not found within the list of vertices, the function will return and print a message
     if (song_vertex.vert_num == -1) {
         return songTitle + " was not found in the database. Please try another song title.";
     }
+    
+    // runs when songTitle is found within the database
     string out = songTitle + " found within the database. Pulling up a song recommendation.\n";
     vector<Vertex> adjacents = g.getAdjacents(song_vertex);
     for (size_t i = 0; i < adjacents.size(); i++) {
