@@ -49,37 +49,6 @@ bool Graph::contains(std::vector<std::string> my_vec, std::string item_looking) 
     return false;
 }
 
-<<<<<<< HEAD
-void Graph::insertVertices(string filename) {
-    //read csv file
-    //  ifstream to read file
-    //  split string by ',' or ' '
-    //  string to int (stoi)
-    //translateData("genres_v2.csv", "data.csv");
-
-    ifstream ifs(filename);
-    int num = 0;
-    size_t numsections = 0;
-    if (ifs.good()) {
-        bool firstline = true;
-        for (string line ; getline(ifs, line); ) {
-            if (firstline) {
-                vector<string> firstlinevect;
-                SplitString(line, ',', firstlinevect);
-                numsections = firstlinevect.size();
-                firstline = false;
-                continue;
-            } else {
-                vector<string> insert;
-                SplitString(line, ',', insert);
-                if (insert.size() == numsections) {
-                    std::vector<Edge> edges;
-                    Vertex to_insert = {num, (double) std::stoi(insert.at(0)), 0, (double) std::stoi(insert.at(1)), insert.at(insert.size() - 3), "", edges};
-                    vertices.push_back(to_insert);
-                    std::cout << "inserted" << std::endl;
-                    num++;
-                }
-=======
 /**
  * This function will insert vertices from the given file and input them into the graph's vector of vertices
  * @param string filename name of the file to be read and parsed for data
@@ -98,15 +67,11 @@ void Graph::insertVertices(string filename, string filewrite) {
     if (ifs.good()) {
         for (string line ; getline(ifs, line); ) {
             vector<string> insert;
-            for(int i = 0; i < (int) insert.size(); i++) {
-                cout << insert.at(i) << endl;
-            }
             SplitString(line, ',', insert);
             std::vector<Edge> edges;
             Vertex to_insert = {std::stoi(insert.at(0)), (double) std::stoi(insert.at(1)), 0, (double) std::stoi(insert.at(2)), insert.at(3), "", edges};
             if (to_insert.song_name != "") {
                 vertices.push_back(to_insert);    
->>>>>>> bcaa0c1181a411d47002eaa2a0a437bb5d4fd639
             }
         }
     }
@@ -139,17 +104,19 @@ void Graph::translateData(const std::string& datainput, const std::string& datao
     std::ifstream ifs{datainput};
     std::ofstream ofs{dataoutput};
     int num = 0;
-    bool skip = true;
+    size_t numsections = 0;
+    bool is_first = true;
     for (string line ; getline(ifs, line);) {
-        if (!skip) {
-            std::vector<std::string> parse_line;
-            SplitString(line, ',', parse_line);
-            if (parse_line.at(parse_line.size() - 3) != "") {
-                ofs << num << "," << parse_line.at(0) << "," << 0 << "," << parse_line.at(parse_line.size() - 3) << "," << parse_line.at(1)  <<  std::endl;
+        std::vector<std::string> parse_line;
+        SplitString(line, ',', parse_line);
+        if (!is_first && numsections == parse_line.size()) {
+            if (parse_line.at(19) != "") {
+                ofs << num << "," << parse_line.at(0) << "," << 0 << "," << parse_line.at(19) << "," << parse_line.at(1)  <<  std::endl;
                 num++;
             }
         } else {
-            skip = false;
+            numsections = parse_line.size();
+            is_first = false;
         }
     }
 }
