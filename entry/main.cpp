@@ -5,7 +5,6 @@
 int main() {
     Graph g;
     g.insertVertices("../data/genres_v2.csv", "../data/data.csv");
-    BFSTraversal(g);
     
     bool continueasking = true;
 
