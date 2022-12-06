@@ -57,28 +57,30 @@ void Graph::insertVertices(string filename) {
     //  split string by ',' or ' '
     //  string to int (stoi)
     //translateData("genres_v2.csv", "data.csv");
-    std::cout << "START VERTEX INSERTION" << std::endl;
+
     ifstream ifs(filename);
     int num = 0;
+    size_t numsections = 0;
     if (ifs.good()) {
-        cout << "file good " << endl;
-        bool skip = true;
+        bool firstline = true;
         for (string line ; getline(ifs, line); ) {
-            if (skip) {
-                skip = false;
+            if (firstline) {
+                vector<string> firstlinevect;
+                SplitString(line, ',', firstlinevect);
+                numsections = firstlinevect.size();
+                firstline = false;
                 continue;
+            } else {
+                vector<string> insert;
+                SplitString(line, ',', insert);
+                if (insert.size() == numsections) {
+                    std::vector<Edge> edges;
+                    Vertex to_insert = {num, (double) std::stoi(insert.at(0)), 0, (double) std::stoi(insert.at(1)), insert.at(insert.size() - 3), "", edges};
+                    vertices.push_back(to_insert);
+                    std::cout << "inserted" << std::endl;
+                    num++;
+                }
             }
-            std::cout << "entered for loop" << endl;
-            vector<string> insert;
-            for(int i = 0; i < (int) insert.size(); i++) {
-                cout << insert.at(i) << endl;
-            }
-            SplitString(line, ',', insert);
-            std::vector<Edge> edges;
-            Vertex to_insert = {num, (double) std::stoi(insert.at(0)), 0, (double) std::stoi(insert.at(1)), insert.at(insert.size() - 3), "", edges};
-            vertices.push_back(to_insert);
-            std::cout << "inserted" << std::endl;
-            num++;
         }
     }
     //read each line, each line represnts a vertex
