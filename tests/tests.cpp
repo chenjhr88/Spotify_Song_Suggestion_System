@@ -11,18 +11,10 @@
 #include <utility>
 //working on - jason
 
-TEST_CASE("test1", "[valgrind][weight=1]")
-{
-    //std::vector<std::vector<string>> test_inputted_vector = 
-    //buildAdjacencyMatrix = 
-    REQUIRE(1 == 1);
-    //test adjacency matrix 1
-}
-
 TEST_CASE("Read From CSV Test", "[valgrind][weight=2][csv]")
 {
     Graph g;
-    g.insertVertices("../tests/test_data.csv");
+    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
     vector<Edge> edge;
     Vertex expected = {1,0.8,0,0.8, "song 1" , "", edge};
 
@@ -135,6 +127,14 @@ TEST_CASE("buildAdjMatrix_complex1", "[valgrind][weight=1]")
     //test adjacency 3
 }
 
+TEST_CASE("Test Song Recommendation - song not found", "[recs]")
+{
+    Graph g;
+    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
 
+    string test = getSongRecommendation(g, "song 5");
+    string expected = "song 5 was not found in the database. Please try another song title.";
+    REQUIRE(test == expected);
+}
 
 

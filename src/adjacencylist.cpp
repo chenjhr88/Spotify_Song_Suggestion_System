@@ -11,9 +11,7 @@ using namespace std;
 // { "SongName F", "Danceability 7"}, \
 // { "SongName G", "Danceability 34"}, \
 // { "SongName H", "Danceability 20"}};
-Graph::Graph() {
-
-}
+Graph::Graph() {}
 
 std::vector<std::vector<int>> Graph::buildAdjacencyMatrix(std::vector<std::vector<string>> inputted_vector) {
     vector<vector<int>> adjacency_matrix;
@@ -51,6 +49,7 @@ bool Graph::contains(std::vector<std::string> my_vec, std::string item_looking) 
     return false;
 }
 
+<<<<<<< HEAD
 void Graph::insertVertices(string filename) {
     //read csv file
     //  ifstream to read file
@@ -80,16 +79,47 @@ void Graph::insertVertices(string filename) {
                     std::cout << "inserted" << std::endl;
                     num++;
                 }
+=======
+/**
+ * This function will insert vertices from the given file and input them into the graph's vector of vertices
+ * @param string filename name of the file to be read and parsed for data
+ */
+void Graph::insertVertices(string filename, string filewrite) {
+    // read csv file
+    // ifstream to read file
+    // split string by ',' or ' '
+    // string to int (stoi)
+    // read each line, each line represnts a vertex
+    // get the song name + characteristics (dancability, popularity, energy)
+    // create the vertex struct
+    // add the vertex to the vertices vector
+    translateData(filename, filewrite);
+    ifstream ifs(filewrite);
+    if (ifs.good()) {
+        for (string line ; getline(ifs, line); ) {
+            vector<string> insert;
+            for(int i = 0; i < (int) insert.size(); i++) {
+                cout << insert.at(i) << endl;
+            }
+            SplitString(line, ',', insert);
+            std::vector<Edge> edges;
+            Vertex to_insert = {std::stoi(insert.at(0)), (double) std::stoi(insert.at(1)), 0, (double) std::stoi(insert.at(2)), insert.at(3), "", edges};
+            if (to_insert.song_name != "") {
+                vertices.push_back(to_insert);    
+>>>>>>> bcaa0c1181a411d47002eaa2a0a437bb5d4fd639
             }
         }
     }
-    //read each line, each line represnts a vertex
-    //get the song name + characteristics (dancability, popularity, energy)
-    //create the vertex struct
-    //add the vertex to the vertices vector
+    
 
 }
 
+/** 
+ * Splits a string by a character and places into a std::vector<std::string> passed in by reference
+ * @param std::string str1 string to be split
+ * @param char sep char to define where string will be split
+ * @param std::vector<std::string> fields vector of where split strings will be placed
+ */ 
 void Graph::SplitString(const std::string & str1, char sep, std::vector<std::string> &fields) {
     std::string str = str1;
     std::string::size_type pos;
@@ -100,25 +130,34 @@ void Graph::SplitString(const std::string & str1, char sep, std::vector<std::str
     fields.push_back(str);
 }
 
+/** 
+ * Given a data input file and data output file, this function will read and parse needed data from the input file into the data output file
+ * @param dataintput name of file to be read
+ * @param dataoutput name of file to be written
+ */
 void Graph::translateData(const std::string& datainput, const std::string& dataoutput) {
     std::ifstream ifs{datainput};
     std::ofstream ofs{dataoutput};
     int num = 0;
     bool skip = true;
-    string to_input;
-    while (ifs >> to_input) {
+    for (string line ; getline(ifs, line);) {
         if (!skip) {
             std::vector<std::string> parse_line;
-            SplitString(to_input, ',', parse_line);
-            ofs << num << "," << parse_line.at(parse_line.size() - 1) << "," << parse_line.at(0) << "," << 0 << "," << parse_line.at(1) << std::endl;
-            num++;
+            SplitString(line, ',', parse_line);
+            if (parse_line.at(parse_line.size() - 3) != "") {
+                ofs << num << "," << parse_line.at(0) << "," << 0 << "," << parse_line.at(parse_line.size() - 3) << "," << parse_line.at(1)  <<  std::endl;
+                num++;
+            }
         } else {
             skip = false;
         }
     }
 }
 
-
+/**
+ * inserts a vertex into the graph
+ * @param v vertex to be inserted
+ */
 void Graph::insertVertex(Vertex v) {
     vertices.push_back(v);
 }
@@ -268,4 +307,32 @@ void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
     v.edges.at(v_edge_idx).label = label_str;
     w.edges.at(w_edge_idx).label = label_str;
 
+}
+
+/**
+ * prints out a song recommendation based off of the inputed graph and song title
+ * @param g Graph of all vertices and edges to generate a song recommendation
+ * @param songTitle Title of song that will generate song recommendations based on closeness on the graph
+ */
+string getSongRecommendation(Graph g, string songTitle) {
+    Vertex song_vertex;
+    song_vertex.vert_num = -1;
+    string songUpper = songTitle;
+    transform(songUpper.begin(), songUpper.end(), songUpper.begin(), ::toupper);
+    vector<Vertex> vertices = g.getVertices();
+
+    // update song_vertex to hold onto the vector that has the same song title as the inputted song
+    for (size_t i = 0; i < vertices.size(); i++) {
+        string tmp = vertices[i].song_name;
+        transform(tmp.begin(), tmp.end(), tmp.begin(), ::toupper);
+        if (tmp == songUpper) {
+            song_vertex = vertices[i];
+        }
+    }
+    // checks to see if song_vertex was updated. If the song title was not found within the list of vertices, the function will return and print a message
+    if (song_vertex.vert_num == -1) {
+        return songTitle + " was not found in the database. Please try another song title.";
+    }
+    string out = songTitle + " found within the database. Pulling up a song recommendation.";
+    return out;
 }
