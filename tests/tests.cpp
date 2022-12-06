@@ -19,7 +19,7 @@ TEST_CASE("Read From CSV Test", "[valgrind][weight=2][csv]")
     Vertex expected = {1,0.8,0,0.8, "song 1" , "", edge};
 
     REQUIRE(g.getVertices().size() == 3);
-    REQUIRE(g.getVertex(0).song_name == expected.song_name);
+    REQUIRE(g.findVertex(0).song_name == expected.song_name);
     //test adjacency matrix 2
 }
 

@@ -52,7 +52,6 @@ class Graph {
         void insertEdge(int v1, int v2);
 
         //getting vertex, vertices, and the adjacent vertices of selected vertex
-        Vertex getVertex(int i);
         Vertex findVertex(int vert_num);
         std::vector<Vertex> getVertices();
         std::vector<Vertex> getAdjacents(Vertex v);
@@ -66,9 +65,12 @@ class Graph {
 
         std::string getLabel(Vertex v, Vertex w);
         void setLabel(Vertex& v, Vertex& w, std::string label_str);
- 
+        
+        void convertToAdjacencyList(vector<vector<int>> adjacencyMatrix);
+        vector<vector<int>> getAdjacencyList();
     private:
         std::vector<Vertex> vertices;
+        vector<vector<int>> adjacencyList;
         //index represents vertex number
         //could put vector of edges here, but would have to be 2D vector
         

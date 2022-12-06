@@ -2,18 +2,25 @@
 
 using namespace std;
 
-//inputted_vector should be formatted as
-//{{ "SongName A", "Danceability 90", "Danceability 20"}, \
-// { "SongName B", "Danceability 20"}, \
-// { "SongName C", "Danceability 50"}, \
-// { "SongName D", "Danceability 99", "Danceability 1"}, \
-// { "SongName E", "Danceability 40", "Danceability 50"}, \
-// { "SongName F", "Danceability 7"}, \
-// { "SongName G", "Danceability 34"}, \
-// { "SongName H", "Danceability 20"}};
+/**
+ * Graph constructor
+ */
 Graph::Graph() {}
 
+/**
+ * Builds and returns and adjacency matrix based on an inputted vector
+ * @param inputted_vector 2D vector to be translated into an adjacency matrix
+ */
 std::vector<std::vector<int>> Graph::buildAdjacencyMatrix(std::vector<std::vector<string>> inputted_vector) {
+    //inputted_vector should be formatted as
+    //{{ "SongName A", "Danceability 90", "Danceability 20"}, \
+    // { "SongName B", "Danceability 20"}, \
+    // { "SongName C", "Danceability 50"}, \
+    // { "SongName D", "Danceability 99", "Danceability 1"}, \
+    // { "SongName E", "Danceability 40", "Danceability 50"}, \
+    // { "SongName F", "Danceability 7"}, \
+    // { "SongName G", "Danceability 34"}, \
+    // { "SongName H", "Danceability 20"}};
     vector<vector<int>> adjacency_matrix;
 
     //initialize a 2d adjacency matrix of all 0s
@@ -39,7 +46,33 @@ std::vector<std::vector<int>> Graph::buildAdjacencyMatrix(std::vector<std::vecto
     return adjacency_matrix;
 }
 
+/**
+ * Builds an adjacency list from and adjacency matrix
+ * @param adjacencyMatrix matrix to be built as a list
+ */
+void Graph::convertToAdjacencyList(vector<vector<int>> adjacencyMatrix) {
+    adjacencyList.resize(adjacencyMatrix.size());
+    for (size_t i = 0; i < adjacencyMatrix.size(); i++) {
+        for (size_t j = 0; j < adjacencyMatrix[i].size(); j++) {
+            if (adjacencyMatrix[i][j] == 1) {
+                adjacencyList[i].push_back(j);
+            }
+        }
+    }
+}
 
+/**
+ * Returns the graph's adjacency list
+ */
+vector<vector<int>> Graph::getAdjacencyList() {
+    return adjacencyList;
+}
+
+/**
+ * Determines if a vector contains an item of interest
+ * @param my_vec vector to be searched
+ * @param item_looking item of interest
+ */
 bool Graph::contains(std::vector<std::string> my_vec, std::string item_looking) {
     for (unsigned i = 0; i < my_vec.size(); i++) {
         if (my_vec.at(i) == item_looking) {
@@ -58,32 +91,30 @@ void Graph::insertVertices(string filename, string filewrite) {
     // ifstream to read file
     // split string by ',' or ' '
     // string to int (stoi)
-    // read each line, each line represnts a vertex
-    // get the song name + characteristics (dancability, popularity, energy)
-    // create the vertex struct
-    // add the vertex to the vertices vector
     translateData(filename, filewrite);
     ifstream ifs(filewrite);
     if (ifs.good()) {
+        // read each line, each line represnts a vertex
         for (string line ; getline(ifs, line); ) {
             vector<string> insert;
             SplitString(line, ',', insert);
             std::vector<Edge> edges;
+            // get the song name + characteristics (dancability, popularity, energy)
+            // create the vertex struct
             Vertex to_insert = {std::stoi(insert.at(0)), (double) std::stoi(insert.at(1)), 0, (double) std::stoi(insert.at(2)), insert.at(3), "", edges};
+            // add the vertex to the vertices vector if song title is not empty
             if (to_insert.song_name != "") {
                 vertices.push_back(to_insert);    
             }
         }
     }
-    
-
 }
 
 /** 
  * Splits a string by a character and places into a std::vector<std::string> passed in by reference
- * @param std::string str1 string to be split
- * @param char sep char to define where string will be split
- * @param std::vector<std::string> fields vector of where split strings will be placed
+ * @param str1 string to be split
+ * @param sep char to define where string will be split
+ * @param fields vector of where split strings will be placed
  */ 
 void Graph::SplitString(const std::string & str1, char sep, std::vector<std::string> &fields) {
     std::string str = str1;
@@ -129,6 +160,11 @@ void Graph::insertVertex(Vertex v) {
     vertices.push_back(v);
 }
 
+/**
+ * Inserts edge between two vertices
+ * @param v1 vertex one to build an edge between v2
+ * @param v2 vertex two to build an edge between v1
+ */
 void Graph::insertEdge(int v1, int v2) {
     Edge e1 = {0, v2, ""};
     Edge e2 = {0, v1, ""};
@@ -143,19 +179,17 @@ void Graph::insertEdge(int v1, int v2) {
 //FUNCTIONS FOR ACCESSING GRAPH VERTICES AND EDGES
 //
 
-//Get the vertex
-Vertex Graph::getVertex(int i) {
-    if (i >= 0 && i < (int) vertices.size()) {
-        return vertices.at(i);
-    }
-    std::cout << "i is too low or high!" << std::endl;
-    return Vertex();
-}
-
+/**
+ * Returns vector of vertices within the graph
+ */
 std::vector<Vertex> Graph::getVertices() {
     return vertices;
 }
 
+/**
+ * Get the vertex
+ * @param vert_num index of requested vertex within the verticies list
+ */
 Vertex Graph::findVertex(int vert_num) {
     for (size_t i = 0; i < vertices.size(); ++i) {
         if (vertices.at(i).vert_num == vert_num) {
@@ -166,7 +200,10 @@ Vertex Graph::findVertex(int vert_num) {
     return vertices.at(0);
 }
 
-
+/**
+ * Return a list of adjacent vertices to a requested vertex
+ * @param v vertex that will return its adjacent nodes
+ */
 std::vector<Vertex> Graph::getAdjacents(Vertex v) {
     std::vector<Vertex> adjacents;
     std::cout << "at " << v.vert_num << "There are " << v.edges.size() << " edges" << std::endl;
@@ -178,27 +215,47 @@ std::vector<Vertex> Graph::getAdjacents(Vertex v) {
     return adjacents;
 }
 
-//For Vertex
+/**
+ * Return the label of a vertex
+ * @param v vertex of interest
+ */
 std::string Graph::getLabel(Vertex v) {
     return v.label;
 }
 
+/**
+ * Set the label of a vertex of interest
+ * @param v vertex that we will change the label of
+ * @param label_str label to be given to vector
+ */
 void Graph::setLabel(Vertex& v, std::string label_str) {
     int curr_vertex_idx = v.vert_num;
     vertices.at(curr_vertex_idx).label = label_str;
 }
 
 
-//For Edges
+/**
+ * Retrieves the label of an edge of interest
+ * @param e edge to get label of
+ */
 std::string getLabel(Edge e) {
     return e.label;
 }
 
+/**
+ * Set the label of an edge of interest
+ * @param e edge that we will change the label of
+ * @param label_str label to be given to vector
+ */
 void Graph::setLabel(Edge& e, std::string label_str) {
     e.label = label_str;
 }
 
-//for edges that are between two selected vertices
+/**
+ * Find an edge between two verticies and return its label
+ * @param v vertex 1 of edge
+ * @param w vertex 2 of edge
+ */
 std::string Graph::getLabel(Vertex v, Vertex w) {
     std::cout << "get the Label between " << v.vert_num << " and " << w.vert_num << std::endl;
     bool w_in_v = false;
@@ -240,6 +297,12 @@ std::string Graph::getLabel(Vertex v, Vertex w) {
 
 }
 
+/**
+ * Set the label of an edge between v and w
+ * @param v vertex one of edge label to be set
+ * @param w vertex two of edge label to be set
+ * @param label_str label to be given to the edge
+ */
 void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
     bool w_in_v = false;
     int v_edge_idx = -1;
@@ -300,6 +363,10 @@ string getSongRecommendation(Graph g, string songTitle) {
     if (song_vertex.vert_num == -1) {
         return songTitle + " was not found in the database. Please try another song title.";
     }
-    string out = songTitle + " found within the database. Pulling up a song recommendation.";
+    string out = songTitle + " found within the database. Pulling up a song recommendation.\n";
+    vector<Vertex> adjacents = g.getAdjacents(song_vertex);
+    for (size_t i = 0; i < adjacents.size(); i++) {
+        out += adjacents.at(i).song_name + "\n";
+    }
     return out;
 }
