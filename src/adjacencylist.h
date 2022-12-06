@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <fstream>
+#include <map>
 using namespace std;
 
 
@@ -61,16 +62,42 @@ class Graph {
         void setLabel(Vertex& v, std::string label_str);
         std::string getLabel(Edge e);
         void setLabel(Edge& e, std::string label_str);
-
-
         std::string getLabel(Vertex v, Vertex w);
         void setLabel(Vertex& v, Vertex& w, std::string label_str);
         
         void convertToAdjacencyList(vector<vector<int>> adjacencyMatrix);
         vector<vector<int>> getAdjacencyList();
+
+        map<pair<string, string>, double> getEdgesToHuesDance();
+        map<pair<string, string>, double> getEdgesToHuesPop();
+        map<pair<string, string>, double> getEdgesToHuesEnergy();
+
+        void makeEdgeHueMapDance(vector<vector<int>> adjacencyMatrix);
+        void makeEdgeHueMapPop(vector<vector<int>> adjacencyMatrix);
+        void makeEdgeHueMapEnergy(vector<vector<int>> adjacencyMatrix);
+
+        void changeHue(string song1, string song2, string factor);
+
+        std::vector<string> getAllSongTitles();
+        std::vector<double> getAllSongDance();
+        std::vector<double> getAllSongPop();
+        std::vector<double> getAllSongEnergy();
+
     private:
         std::vector<Vertex> vertices;
+        map<pair<string, string>, double> edges_to_hues_dance;
+        map<pair<string, string>, double> edges_to_hues_pop;
+        map<pair<string, string>, double> edges_to_hues_energy;
+
+        vector<vector<int>> adjacency_matrix;
         vector<vector<int>> adjacencyList;
+
+        std::vector<string> all_songs;
+        std::vector<double> all_dance;
+        std::vector<double> all_pop;
+        std::vector<double> all_energy;
+
+
         //index represents vertex number
         //could put vector of edges here, but would have to be 2D vector
         
