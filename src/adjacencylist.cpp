@@ -78,6 +78,7 @@ void Graph::makeEdgeHueMapDance(vector<vector<int>> adjacencyMatrix) {
             std::pair<string,string> edge = std::make_pair(all_songs.at(i), all_songs.at(j));
             if (adjacencyMatrix[i][j] == 1) {
                 edges_to_hues_dance.insert({edge, all_dance.at(i) + all_dance.at(j)});
+                changeHue(all_songs.at(i), all_songs.at(j), "dancability");
             } else {
                 edges_to_hues_dance.insert({edge, 0});
             }
@@ -91,6 +92,7 @@ void Graph::makeEdgeHueMapPop(vector<vector<int>> adjacencyMatrix) {
             std::pair<string,string> edge = std::make_pair(all_songs.at(i), all_songs.at(j));
             if (adjacencyMatrix[i][j] == 1) {
                 edges_to_hues_pop.insert({edge, all_pop.at(i) + all_pop.at(j)});
+                changeHue(all_songs.at(i), all_songs.at(j), "pop");
             } else {
                 edges_to_hues_pop.insert({edge, 0});
             }
@@ -104,6 +106,7 @@ void Graph::makeEdgeHueMapEnergy(vector<vector<int>> adjacencyMatrix) {
             std::pair<string,string> edge = std::make_pair(all_songs.at(i), all_songs.at(j));
             if (adjacencyMatrix[i][j] == 1) {
                 edges_to_hues_energy.insert({edge, all_energy.at(i) + all_energy.at(j)});
+                changeHue(all_songs.at(i), all_songs.at(j), "energy");
             } else {
                 edges_to_hues_energy.insert({edge, 0});
             }
@@ -474,7 +477,7 @@ string getSongRecommendation(Graph g, string songTitle, string category) {
     string out = songTitle + " found within the database. Pulling up a song recommendation.\n";
 
     map<pair<string, string>, double> mapofinterest;
-    if (category == "dancabililty")
+    if (category == "dancability")
         mapofinterest = g.getEdgesToHuesDance();
     else if (category == "popularity")
         mapofinterest = g.getEdgesToHuesPop();
@@ -487,7 +490,7 @@ string getSongRecommendation(Graph g, string songTitle, string category) {
     int strength = -1;
     vector<string> all_songs = g.getAllSongTitles();
     for (size_t i = 0; i < all_songs.size(); i++) {
-        pair new_pair(songTitle, all_songs.at(i));
+        std::pair<string, string> new_pair(songTitle, all_songs.at(i));
         for (auto itr = mapofinterest.begin(); itr != mapofinterest.end(); ++itr) {
             if (new_pair.first == itr->first.first && new_pair.second != itr->first.second && strength < itr->second) {
                 strength = itr->second;
