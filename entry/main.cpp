@@ -5,14 +5,22 @@
 int main() {
     Graph g;
     g.insertVertices("../data/genres_v2.csv", "../data/data.csv");
-    
+    // vector<vector<int>> adjmat = g.buildAdjacencyMatrix(g.getVertices());
+    // g.makeEdgeHueMapDance(adjmat);
+    // g.makeEdgeHueMapEnergy(adjmat);
+    // g.makeEdgeHueMapPop(adjmat);
+
+
     bool continueasking = true;
 
     while (continueasking) {
         cout << "Enter the name of your favorite song and we will find a song recommendation for you!\nSong name: ";    
         string songTitle;
         getline(cin, songTitle);
-        cout << getSongRecommendation(g, songTitle) << endl;
+        cout << "Enter the category of interest (dancabililty, popularity, energy)\nCategory: ";
+        string cat;
+        getline(cin, cat);
+        cout << getSongRecommendation(g, songTitle,cat) << endl;
         cout << "Would you like to see recommendations for another song? (Y/N)" << endl;
         string response;
         getline(cin, response);

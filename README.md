@@ -2,7 +2,7 @@
 <p align="center">
   <a href="#presentation-summary">Project Summary</a> •
   <a href="#running-instructions">Running Instructions</a> •
-  <a href="#repo-structure">Repo Structure</a> •
+  <a href="#repo-structure">Repo Structure</a>
 </p>
 
 ## Project Summary

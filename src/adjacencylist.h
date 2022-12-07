@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <fstream>
+#include <iterator>
 #include <map>
 using namespace std;
 
@@ -103,4 +104,4 @@ class Graph {
         
 };
 
-string getSongRecommendation(Graph g, string songTitle);
+string getSongRecommendation(Graph g, string songTitle, string category);
