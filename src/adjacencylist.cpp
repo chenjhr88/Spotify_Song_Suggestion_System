@@ -447,16 +447,14 @@ void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
  * @param g Graph of all vertices and edges to generate a song recommendation
  * @param songTitle Title of song that will generate song recommendations based on closeness on the graph
  */
-string getSongRecommendation(Graph g, string songTitle) {
+string getSongRecommendation(Graph g, string songTitle, string category) {
     // create new song_vertex and set its vert_num to -1 for update comparisons
     Vertex song_vertex;
     song_vertex.vert_num = -1;
-    
     // set song to upper case for comparison
     string songUpper = songTitle;
     transform(songUpper.begin(), songUpper.end(), songUpper.begin(), ::toupper);
     vector<Vertex> vertices = g.getVertices();
-
     // update song_vertex to hold onto the vector that has the same song title as the inputted song
     for (size_t i = 0; i < vertices.size(); i++) {
         string tmp = vertices[i].song_name;
@@ -467,7 +465,6 @@ string getSongRecommendation(Graph g, string songTitle) {
             song_vertex = vertices[i];
         }
     }
-
     // checks to see if song_vertex was updated. If the song title was not found within the list of vertices, the function will return and print a message
     if (song_vertex.vert_num == -1) {
         return songTitle + " was not found in the database. Please try another song title.";
@@ -475,9 +472,28 @@ string getSongRecommendation(Graph g, string songTitle) {
     
     // runs when songTitle is found within the database
     string out = songTitle + " found within the database. Pulling up a song recommendation.\n";
-    vector<Vertex> adjacents = g.getAdjacents(song_vertex);
-    for (size_t i = 0; i < adjacents.size(); i++) {
-        out += adjacents.at(i).song_name + "\n";
+
+    map<pair<string, string>, double> mapofinterest;
+    if (category == "dancabililty")
+        mapofinterest = g.getEdgesToHuesDance();
+    else if (category == "popularity")
+        mapofinterest = g.getEdgesToHuesPop();
+    else if (category == "energy")
+        mapofinterest = g.getEdgesToHuesEnergy();
+    else
+        return category + " is not a valid category";
+    
+    string bestsong = "";
+    int strength = -1;
+    vector<string> all_songs = g.getAllSongTitles();
+    for (size_t i = 0; i < all_songs.size(); i++) {
+        pair new_pair(songTitle, all_songs.at(i));
+        for (auto itr = mapofinterest.begin(); itr != mapofinterest.end(); ++itr) {
+            if (new_pair.first == itr->first.first && new_pair.second != itr->first.second && strength < itr->second) {
+                strength = itr->second;
+                bestsong = itr->first.second;
+            }
+        }
     }
-    return out;
+    return out + "Your song recommendation for " + songTitle + " under the " + category + " is: " + bestsong + "\n";
 }
