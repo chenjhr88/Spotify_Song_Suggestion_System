@@ -6,16 +6,21 @@ int main() {
     Graph g;
     g.insertVertices("../data/genres_v2.csv", "../data/data.csv");
     cout << "vertices entered" << endl;
-    vector<vector<string>> string_vertex = g.vertexToString();
-    cout << "vertex to string made" <<endl;
-    vector<vector<int>> adjmat = g.buildAdjacencyMatrix(string_vertex);
-    cout << "adjmatrix made" <<endl;
-    g.makeEdgeHueMapDance(adjmat);
-    cout << "dance hue map made" <<endl;
-    g.makeEdgeHueMapEnergy(adjmat);
-    cout << "energy hue map made" <<endl;
-    g.makeEdgeHueMapPop(adjmat);
-    cout << "popularity hue map made" <<endl;
+
+    //sets the adjacency matrix to all zeros
+    g.setAdjacencyMatrix(g.getVertices().size());
+
+    //insert the edges on the song
+    for (unsigned i = 0; i < g.getVertices().size(); i++) {
+        for (unsigned j = 0; j < g.getVertices().size(); j++) {
+            g.insertEdge(i, j);
+        }
+    }
+
+
+    g.makeEdgeHueMapDance(g.getAdjacencyMatrix().size());
+    g.makeEdgeHueMapEnergy(g.getAdjacencyMatrix().size());
+    g.makeEdgeHueMapPop(g.getAdjacencyMatrix().size());
 
     bool continueasking = true;
 

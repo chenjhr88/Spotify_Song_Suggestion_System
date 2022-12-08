@@ -8,34 +8,6 @@ using namespace std;
 Graph::Graph() {}
 
 /**
- * Builds and returns and adjacency matrix based on an inputted vector
- * @param inputted_vector 2D vector to be translated into an adjacency matrix
- */
-std::vector<std::vector<int>> Graph::buildAdjacencyMatrix(std::vector<std::vector<string>> inputted_vector) {
-    //initialize a 2d adjacency matrix of all 0s
-    for(unsigned i=0; i<inputted_vector.size(); i++){
-        std::vector <int> temp;
-        for (unsigned j=0; j<inputted_vector.size(); j++){
-            temp.push_back(0);
-        }
-        adjacency_matrix.push_back(temp);
-    }
-
-    //fill adjacency matrix based on overlapping factor values
-    for (unsigned row = 0; row < inputted_vector.size(); row++) {
-        for (unsigned col = 0; col < inputted_vector[row].size(); col++) {
-            std::string curr_song = inputted_vector[row][col];
-            for (unsigned factor = 0; factor < inputted_vector.size(); factor++) {
-                if (contains(inputted_vector.at(factor), curr_song) == true && factor != row) {
-                    adjacency_matrix[row][factor] = 1;
-                }
-            }
-        }
-    }
-    return adjacency_matrix;
-}
-
-/**
  * Builds an adjacency list from and adjacency matrix
  * @param adjacencyMatrix matrix to be built as a list
  */
@@ -71,14 +43,17 @@ map<pair<string, string>, double> Graph::getEdgesToHuesEnergy() {
 }
 
 
-//default hue for edge is 1, and default for no edge is 0.
-void Graph::makeEdgeHueMapDance(const vector<vector<int>>& adjacencyMatrix) {
-    for (unsigned i = 0; i < adjacencyMatrix.size(); i++) {
-        for (unsigned j = 0; j < adjacencyMatrix.size(); j++) {
-            std::pair<string,string> edge = std::make_pair(all_songs.at(i), all_songs.at(j));
-            if (adjacencyMatrix[i][j] == 1) {
-                edges_to_hues_dance.insert({edge, all_dance.at(i) + all_dance.at(j)});
-                changeHue(all_songs.at(i), all_songs.at(j), "dancability");
+//the default hue is the avergage value of the two factors of the songs connected by an edge determined earlier (ie. average dancability for songs)
+//after the default hue is applied, we may change the hue accordingly to the changeHue formula
+//for no edge for songs, the hue is 0
+void Graph::makeEdgeHueMapDance(int size) {
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            std::pair<string,string> edge = std::make_pair(vertices.at(i).song_name, vertices.at(j).song_name);
+            if (adjacency_matrix[i][j] == 1) {
+                edges_to_hues_dance.insert({edge, (vertices.at(i).dancability + vertices.at(j).dancability)/2});
+                changeHue(vertices.at(i).song_name, vertices.at(j).song_name, "dancability");
             } else {
                 edges_to_hues_dance.insert({edge, 0});
             }
@@ -86,29 +61,29 @@ void Graph::makeEdgeHueMapDance(const vector<vector<int>>& adjacencyMatrix) {
     }
 }
 
-void Graph::makeEdgeHueMapPop(const vector<vector<int>>& adjacencyMatrix) {
-    for (unsigned i = 0; i < adjacencyMatrix.size(); i++) {
-        for (unsigned j = 0; j < adjacencyMatrix.size(); j++) {
-            std::pair<string,string> edge = std::make_pair(all_songs.at(i), all_songs.at(j));
-            if (adjacencyMatrix[i][j] == 1) {
-                edges_to_hues_pop.insert({edge, all_pop.at(i) + all_pop.at(j)});
-                changeHue(all_songs.at(i), all_songs.at(j), "pop");
+void Graph::makeEdgeHueMapPop(int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            std::pair<string,string> edge = std::make_pair(vertices.at(i).song_name, vertices.at(j).song_name);
+            if (adjacency_matrix[i][j] == 1) {
+                edges_to_hues_pop.insert({edge, (vertices.at(i).popularity + vertices.at(j).popularity)/2});
+                changeHue(vertices.at(i).song_name, vertices.at(j).song_name, "pop");
             } else {
-                edges_to_hues_pop.insert({edge, 0});
+                edges_to_hues_pop.insert({edge, 0.5});
             }
         }
     }
 }
 
-void Graph::makeEdgeHueMapEnergy(const vector<vector<int>>& adjacencyMatrix) {
-    for (unsigned i = 0; i < adjacencyMatrix.size(); i++) {
-        for (unsigned j = 0; j < adjacencyMatrix.size(); j++) {
-            std::pair<string,string> edge = std::make_pair(all_songs.at(i), all_songs.at(j));
-            if (adjacencyMatrix[i][j] == 1) {
-                edges_to_hues_energy.insert({edge, all_energy.at(i) + all_energy.at(j)});
-                changeHue(all_songs.at(i), all_songs.at(j), "energy");
+void Graph::makeEdgeHueMapEnergy(int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            std::pair<string,string> edge = std::make_pair(vertices.at(i).song_name, vertices.at(j).song_name);
+            if (adjacency_matrix[i][j] == 1) {
+                edges_to_hues_energy.insert({edge, (vertices.at(i).energy + vertices.at(j).energy)/2});
+                changeHue(vertices.at(i).song_name, vertices.at(j).song_name, "energy");
             } else {
-                edges_to_hues_energy.insert({edge, 0});
+                edges_to_hues_energy.insert({edge, 0.5});
             }
         }
     }
@@ -116,31 +91,91 @@ void Graph::makeEdgeHueMapEnergy(const vector<vector<int>>& adjacencyMatrix) {
 
 
 
-//changes the hue for map<pair<string, string>, int> edges_to_hues
-//dancability, popularity, energy
+//the default hue along the edge for connected nodes is the averge factor (dancability, popularity, energy) value for the songs
+//for songs with no edge connecting them, the hue is zero, and this algorithm will not be called during the map build
+//changes the hue for map<pair<string, string>, int> edges_to_hues_dance, edges_to_hues_pop, edges_to_hues_energy
+//if two songs have a factor (dancability, popularity, energy) value within 0.05 of eachother, the edge hue increases by 2.5
+//if two songs have a factor (dancability, popularity, energy) value within 0.1 of eachother, the edge hue increases by 2
+//if two songs have a factor (dancability, popularity, energy) value within 0.2 of eachother, the edge hue increases by 1.5
+//if two songs have a factor (dancability, popularity, energy) value within 0.25 of eachother, the edge hue increases by 1
+
 void Graph::changeHue(string song1, string song2, string factor) {
 
     if (factor == "dancability") {
         std::pair<string,string> looking_for = std::make_pair(song1, song2);
         std::map<pair<string, string>, double>::iterator it = edges_to_hues_dance.find(looking_for); 
-        if (it != edges_to_hues_dance.end())
-            it->second += (float)rand() / (float)RAND_MAX;
+        if (it != edges_to_hues_dance.end()) {
+            if ((abs(getDancability(it->first.first)-getDancability(it->first.second)) <= 0.05)) {
+                it->second += 2.5;
+            } else if ((abs(getDancability(it->first.first)-getDancability(it->first.second)) <= 0.1)) {
+                it->second += 2;
+            } else if ((abs(getDancability(it->first.first)-getDancability(it->first.second)) <= 0.2)) {
+                it->second += 1.5;
+            } else if ((abs(getDancability(it->first.first)-getDancability(it->first.second)) <= 0.25)) {
+                it->second += 1;
+            }
+        }
     }
 
     if (factor == "popularity") {
         std::pair<string,string> looking_for = std::make_pair(song1, song2);
         std::map<pair<string, string>, double>::iterator it = edges_to_hues_pop.find(looking_for); 
-        if (it != edges_to_hues_pop.end())
-            it->second += (float)rand() / (float)RAND_MAX;
+        if (it != edges_to_hues_pop.end()) {
+            if ((abs(getPopularity(it->first.first)-getPopularity(it->first.second)) <= 0.05)) {
+                it->second += 2.5;
+            } else if ((abs(getPopularity(it->first.first)-getPopularity(it->first.second)) <= 0.1)) {
+                it->second += 2;
+            } else if ((abs(getPopularity(it->first.first)-getPopularity(it->first.second)) <= 0.2)) {
+                it->second += 1.5;
+            } else if ((abs(getPopularity(it->first.first)-getPopularity(it->first.second)) <= 0.25)) {
+                it->second += 1;
+            }
+        }
     }
 
     if (factor == "energy") {
         std::pair<string,string> looking_for = std::make_pair(song1, song2);
         std::map<pair<string, string>, double>::iterator it = edges_to_hues_energy.find(looking_for); 
-        if (it != edges_to_hues_energy.end())
-            it->second += (float)rand() / (float)RAND_MAX;
+        if (it != edges_to_hues_energy.end()) {
+            if ((abs(getEnergy(it->first.first)-getEnergy(it->first.second)) <= 0.05)) {
+                it->second += 2.5;
+            } else if ((abs(getEnergy(it->first.first)-getEnergy(it->first.second)) <= 0.1)) {
+                it->second += 2;
+            } else if ((abs(getEnergy(it->first.first)-getEnergy(it->first.second)) <= 0.2)) {
+                it->second += 1.5;
+            } else if ((abs(getEnergy(it->first.first)-getEnergy(it->first.second)) <= 0.25)) {
+                it->second += 1;
+            }
+        }
     }
 
+}
+
+double Graph::getDancability(string song) {
+    for (unsigned i = 0; i < vertices.size(); i++) {
+        if (vertices[i].song_name == song) {
+            return vertices[i].dancability;
+        }
+    }
+    return 0;
+}
+
+double Graph::getPopularity(string song) {
+    for (unsigned i = 0; i < vertices.size(); i++) {
+        if (vertices[i].song_name == song) {
+            return vertices[i].popularity;
+        }
+    }
+    return 0;
+}
+
+double Graph::getEnergy(string song) {
+    for (unsigned i = 0; i < vertices.size(); i++) {
+        if (vertices[i].song_name == song) {
+            return vertices[i].energy;
+        }
+    }
+    return 0;
 }
 
 
@@ -168,7 +203,7 @@ void Graph::insertVertices(string filename, string filewrite) {
     // read csv file
     // ifstream to read file
     // split string by ',' or ' '
-    // string to int (stoi)
+    // string to double (stod)
     translateData(filename, filewrite);
     ifstream ifs(filewrite);
     if (ifs.good()) {
@@ -179,7 +214,7 @@ void Graph::insertVertices(string filename, string filewrite) {
             std::vector<Edge> edges;
             // get the song name + characteristics (dancability, popularity, energy)
             // create the vertex struct
-            Vertex to_insert = {std::stoi(insert.at(0)), (double) std::stoi(insert.at(1)), 0, (double) std::stoi(insert.at(2)), insert.at(3), "", edges};
+            Vertex to_insert = {std::stoi(insert.at(0)), std::stod(insert.at(1)), 0, std::stod(insert.at(2)), insert.at(3), "", edges};
             // add the vertex to the vertices vector if song title is not empty
             if (to_insert.song_name != "") {
                 vertices.push_back(to_insert);    
@@ -240,6 +275,7 @@ void Graph::insertVertex(Vertex v) {
 
 /**
  * Inserts edge between two vertices
+ * The default edge should have a minimum difference of just 0.3. Change hue will specify the likeness further.
  * @param v1 vertex one to build an edge between v2
  * @param v2 vertex two to build an edge between v1
  */
@@ -247,12 +283,37 @@ void Graph::insertEdge(int v1, int v2) {
     Edge e1 = {0, v2, ""};
     Edge e2 = {0, v1, ""};
 
-    vertices.at(v1).edges.push_back(e1);
-    vertices.at(v2).edges.push_back(e2);
+    if ((abs(vertices.at(v1).dancability-vertices.at(v2).dancability) <= 0.3) && (abs(vertices.at(v1).energy-vertices.at(v2).energy) <= 0.3) && (abs(vertices.at(v1).popularity-vertices.at(v2).popularity) <= 0.3)) {
+        vertices.at(v1).edges.push_back(e1);
+        vertices.at(v2).edges.push_back(e2);
+        if (vertices.at(v1).song_name != vertices.at(v2).song_name) {
+            adjacency_matrix[v1][v2] = 1;
+            adjacency_matrix[v2][v1] = 1;
+        } else {
+            adjacency_matrix[v1][v2] = 0;
+            adjacency_matrix[v2][v1] = 0;
+        }
+    } else {
+        adjacency_matrix[v1][v2] = 0;
+        adjacency_matrix[v2][v1] = 0;
+    }
 
     // std::cout << vertices.at(v1).edges.at(0).dest << std::endl;
 }
 
+vector<vector<int>> Graph::getAdjacencyMatrix() {
+    return adjacency_matrix;
+}
+
+void Graph::setAdjacencyMatrix(int size) {
+    for(int i=0; i<size; i++){
+        std::vector <int> temp;
+        for (int j=0; j< size; j++){
+            temp.push_back(0);
+        }
+        adjacency_matrix.push_back(temp);
+    }
+}
 //
 //FUNCTIONS FOR ACCESSING GRAPH VERTICES AND EDGES
 //
@@ -273,7 +334,7 @@ std::vector<string> Graph::getAllSongTitles(){
 
 std::vector<double> Graph::getAllSongDance(){
     for (size_t i = 0; i < vertices.size(); i++) {
-        all_dance.push_back(vertices.at(i).dancabililty);
+        all_dance.push_back(vertices.at(i).dancability);
     }
     return all_dance;
 }
@@ -506,7 +567,7 @@ vector<vector<string>> Graph::vertexToString() {
     out.resize(vertices.size());
     for (size_t vert_num = 0; vert_num < vertices.size(); vert_num++) {
         out[vert_num].push_back(to_string(vertices[vert_num].vert_num));
-        out[vert_num].push_back(to_string(vertices[vert_num].dancabililty));
+        out[vert_num].push_back(to_string(vertices[vert_num].dancability));
         out[vert_num].push_back(to_string(vertices[vert_num].popularity));
         out[vert_num].push_back(to_string(vertices[vert_num].energy));
         out[vert_num].push_back(vertices[vert_num].song_name);

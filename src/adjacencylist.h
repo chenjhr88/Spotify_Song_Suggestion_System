@@ -26,7 +26,7 @@ struct Vertex {
     //this int will help identify what vertex we're looking at
     int vert_num;
     //insert characteristics
-    double dancabililty;
+    double dancability;
     double popularity;
     double energy;
     std::string song_name;
@@ -69,14 +69,15 @@ class Graph {
         
         void convertToAdjacencyList(vector<vector<int>> adjacencyMatrix);
         vector<vector<int>> getAdjacencyList();
-
+        vector<vector<int>> getAdjacencyMatrix();
+        void setAdjacencyMatrix(int size);
         map<pair<string, string>, double> getEdgesToHuesDance();
         map<pair<string, string>, double> getEdgesToHuesPop();
         map<pair<string, string>, double> getEdgesToHuesEnergy();
 
-        void makeEdgeHueMapDance(const vector<vector<int>>& adjacencyMatrix);
-        void makeEdgeHueMapPop(const vector<vector<int>>& adjacencyMatrix);
-        void makeEdgeHueMapEnergy(const vector<vector<int>>& adjacencyMatrix);
+        void makeEdgeHueMapDance(int size);
+        void makeEdgeHueMapPop(int size);
+        void makeEdgeHueMapEnergy(int size);
 
         void changeHue(string song1, string song2, string factor);
 
@@ -84,6 +85,10 @@ class Graph {
         std::vector<double> getAllSongDance();
         std::vector<double> getAllSongPop();
         std::vector<double> getAllSongEnergy();
+
+        double getDancability(string song);
+        double getPopularity(string song);
+        double getEnergy(string song);
 
     private:
         std::vector<Vertex> vertices;
