@@ -1,6 +1,6 @@
 # CS225 Final Project: Song Suggestion System
 <p align="center">
-  <a href="#presentation-summary">Project Summary</a> •
+  <a href="#project-summary">Project Summary</a> •
   <a href="#running-instructions">Running Instructions</a> •
   <a href="#repo-structure">Repo Structure</a>
 </p>
