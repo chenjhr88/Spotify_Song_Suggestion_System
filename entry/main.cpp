@@ -18,7 +18,7 @@ int main() {
 
     g.makeEdgeHueMapDance(g.getAdjacencyMatrix().size());
     g.makeEdgeHueMapEnergy(g.getAdjacencyMatrix().size());
-    g.makeEdgeHueMapPop(g.getAdjacencyMatrix().size());
+    g.makeEdgeHueMapAcc(g.getAdjacencyMatrix().size());
 
     bool continueasking = true;
 
@@ -26,7 +26,7 @@ int main() {
         cout << "Enter the name of your favorite song and we will find a song recommendation for you!\nSong name: ";    
         string songTitle;
         getline(cin, songTitle);
-        cout << "Enter the category of interest (dancabililty, popularity, energy)\nCategory: ";
+        cout << "Enter the category of interest (dancabililty, acousticness, energy)\nCategory: ";
         string cat;
         getline(cin, cat);
         cout << getSongRecommendation(g, songTitle, cat) << endl;
