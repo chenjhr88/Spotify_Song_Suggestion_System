@@ -72,7 +72,7 @@ map<pair<string, string>, double> Graph::getEdgesToHuesEnergy() {
 
 
 //default hue for edge is 1, and default for no edge is 0.
-void Graph::makeEdgeHueMapDance(vector<vector<int>> adjacencyMatrix) {
+void Graph::makeEdgeHueMapDance(const vector<vector<int>>& adjacencyMatrix) {
     for (unsigned i = 0; i < adjacencyMatrix.size(); i++) {
         for (unsigned j = 0; j < adjacencyMatrix.size(); j++) {
             std::pair<string,string> edge = std::make_pair(all_songs.at(i), all_songs.at(j));
@@ -86,7 +86,7 @@ void Graph::makeEdgeHueMapDance(vector<vector<int>> adjacencyMatrix) {
     }
 }
 
-void Graph::makeEdgeHueMapPop(vector<vector<int>> adjacencyMatrix) {
+void Graph::makeEdgeHueMapPop(const vector<vector<int>>& adjacencyMatrix) {
     for (unsigned i = 0; i < adjacencyMatrix.size(); i++) {
         for (unsigned j = 0; j < adjacencyMatrix.size(); j++) {
             std::pair<string,string> edge = std::make_pair(all_songs.at(i), all_songs.at(j));
@@ -100,7 +100,7 @@ void Graph::makeEdgeHueMapPop(vector<vector<int>> adjacencyMatrix) {
     }
 }
 
-void Graph::makeEdgeHueMapEnergy(vector<vector<int>> adjacencyMatrix) {
+void Graph::makeEdgeHueMapEnergy(const vector<vector<int>>& adjacencyMatrix) {
     for (unsigned i = 0; i < adjacencyMatrix.size(); i++) {
         for (unsigned j = 0; j < adjacencyMatrix.size(); j++) {
             std::pair<string,string> edge = std::make_pair(all_songs.at(i), all_songs.at(j));
@@ -450,7 +450,7 @@ void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
  * @param g Graph of all vertices and edges to generate a song recommendation
  * @param songTitle Title of song that will generate song recommendations based on closeness on the graph
  */
-string getSongRecommendation(Graph g, string songTitle, string category) {
+string getSongRecommendation(Graph& g, const string& songTitle, const string& category) {
     // create new song_vertex and set its vert_num to -1 for update comparisons
     Vertex song_vertex;
     song_vertex.vert_num = -1;
@@ -499,4 +499,18 @@ string getSongRecommendation(Graph g, string songTitle, string category) {
         }
     }
     return out + "Your song recommendation for " + songTitle + " under the " + category + " is: " + bestsong + "\n";
+}
+
+vector<vector<string>> Graph::vertexToString() {
+    vector<vector<string>> out;
+    out.resize(vertices.size());
+    for (size_t vert_num = 0; vert_num < vertices.size(); vert_num++) {
+        out[vert_num].push_back(to_string(vertices[vert_num].vert_num));
+        out[vert_num].push_back(to_string(vertices[vert_num].dancabililty));
+        out[vert_num].push_back(to_string(vertices[vert_num].popularity));
+        out[vert_num].push_back(to_string(vertices[vert_num].energy));
+        out[vert_num].push_back(vertices[vert_num].song_name);
+        out[vert_num].push_back(vertices[vert_num].label);
+    }
+    return out;
 }

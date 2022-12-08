@@ -5,11 +5,17 @@
 int main() {
     Graph g;
     g.insertVertices("../data/genres_v2.csv", "../data/data.csv");
-    // vector<vector<int>> adjmat = g.buildAdjacencyMatrix(g.getVertices());
-    // g.makeEdgeHueMapDance(adjmat);
-    // g.makeEdgeHueMapEnergy(adjmat);
-    // g.makeEdgeHueMapPop(adjmat);
-
+    cout << "vertices entered" << endl;
+    vector<vector<string>> string_vertex = g.vertexToString();
+    cout << "vertex to string made" <<endl;
+    vector<vector<int>> adjmat = g.buildAdjacencyMatrix(string_vertex);
+    cout << "adjmatrix made" <<endl;
+    g.makeEdgeHueMapDance(adjmat);
+    cout << "dance hue map made" <<endl;
+    g.makeEdgeHueMapEnergy(adjmat);
+    cout << "energy hue map made" <<endl;
+    g.makeEdgeHueMapPop(adjmat);
+    cout << "popularity hue map made" <<endl;
 
     bool continueasking = true;
 
@@ -20,7 +26,7 @@ int main() {
         cout << "Enter the category of interest (dancabililty, popularity, energy)\nCategory: ";
         string cat;
         getline(cin, cat);
-        cout << getSongRecommendation(g, songTitle,cat) << endl;
+        cout << getSongRecommendation(g, songTitle, cat) << endl;
         cout << "Would you like to see recommendations for another song? (Y/N)" << endl;
         string response;
         getline(cin, response);
