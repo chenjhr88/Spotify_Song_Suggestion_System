@@ -56,6 +56,7 @@ class Graph {
         //getting vertex, vertices, and the adjacent vertices of selected vertex
         Vertex findVertex(int vert_num);
         std::vector<Vertex> getVertices();
+        vector<vector<string>> vertexToString();
         std::vector<Vertex> getAdjacents(Vertex v);
 
         //label functions for setting label for vertex and edges
@@ -73,9 +74,9 @@ class Graph {
         map<pair<string, string>, double> getEdgesToHuesPop();
         map<pair<string, string>, double> getEdgesToHuesEnergy();
 
-        void makeEdgeHueMapDance(vector<vector<int>> adjacencyMatrix);
-        void makeEdgeHueMapPop(vector<vector<int>> adjacencyMatrix);
-        void makeEdgeHueMapEnergy(vector<vector<int>> adjacencyMatrix);
+        void makeEdgeHueMapDance(const vector<vector<int>>& adjacencyMatrix);
+        void makeEdgeHueMapPop(const vector<vector<int>>& adjacencyMatrix);
+        void makeEdgeHueMapEnergy(const vector<vector<int>>& adjacencyMatrix);
 
         void changeHue(string song1, string song2, string factor);
 
@@ -104,4 +105,4 @@ class Graph {
         
 };
 
-string getSongRecommendation(Graph g, string songTitle, string category);
+string getSongRecommendation(Graph& g, const string& songTitle, const string& category);
