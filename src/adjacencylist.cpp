@@ -511,7 +511,7 @@ void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
  * @param g Graph of all vertices and edges to generate a song recommendation
  * @param songTitle Title of song that will generate song recommendations based on closeness on the graph
  */
-string getSongRecommendation(Graph& g, const string& songTitle, const string& category) {
+string getSongRecommendation(Graph& g, string& songTitle, const string& category) {
     // create new song_vertex and set its vert_num to -1 for update comparisons
     Vertex song_vertex;
     song_vertex.vert_num = -1;
@@ -535,6 +535,7 @@ string getSongRecommendation(Graph& g, const string& songTitle, const string& ca
     }
     
     // runs when songTitle is found within the database
+    songTitle = song_vertex.song_name;
     string out = songTitle + " found within the database. Pulling up a song recommendation.\n";
 
     map<pair<string, string>, double> mapofinterest;
@@ -559,7 +560,10 @@ string getSongRecommendation(Graph& g, const string& songTitle, const string& ca
             }
         }
     }
-    return out + "Your song recommendation for " + songTitle + " under the " + category + " is: " + bestsong + "\n";
+    if (bestsong == "") {
+        return "We could not find any related songs to you requested song. Please try another song title and category combination.";
+    }
+    return out + "Your song recommendation for " + songTitle + " under the " + category + " category is: " + bestsong + "\n";
 }
 
 vector<vector<string>> Graph::vertexToString() {

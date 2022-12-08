@@ -110,4 +110,4 @@ class Graph {
         
 };
 
-string getSongRecommendation(Graph& g, const string& songTitle, const string& category);
+string getSongRecommendation(Graph& g, string& songTitle, const string& category);

@@ -5,7 +5,6 @@
 int main() {
     Graph g;
     g.insertVertices("../data/genres_v2.csv", "../data/data.csv");
-    cout << "vertices entered" << endl;
 
     //sets the adjacency matrix to all zeros
     g.setAdjacencyMatrix(g.getVertices().size());
@@ -16,7 +15,6 @@ int main() {
             g.insertEdge(i, j);
         }
     }
-
 
     g.makeEdgeHueMapDance(g.getAdjacencyMatrix().size());
     g.makeEdgeHueMapEnergy(g.getAdjacencyMatrix().size());

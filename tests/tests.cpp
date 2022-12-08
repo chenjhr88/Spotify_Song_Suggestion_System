@@ -58,8 +58,8 @@ TEST_CASE("Test Song Recommendation - song not found", "[recs]")
 {
     Graph g;
     g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
-
-    string test = getSongRecommendation(g, "song 5", "dancabililty");
+    string song = "song 5";
+    string test = getSongRecommendation(g, song, "dancabililty");
     string expected = "song 5 was not found in the database. Please try another song title.";
     REQUIRE(test == expected);
 }
