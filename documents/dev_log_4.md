@@ -2,12 +2,12 @@
 
 ## Weekly Goals
 
-*Add more details on our README file
-*Create the make file
-*Read our dataset csv and obtain the data to add onto our graph
-*Create adjacency matrix from the data set
-*Begin method to add vertices and edges on the graph
-*Finish the BFS traversal
+* Add more details on our README file
+* Create the make file
+* Read our dataset csv and obtain the data to add onto our graph
+* Create adjacency matrix from the data set
+* Begin method to add vertices and edges on the graph
+* Finish the BFS traversal
 
 ## Specific Tasks Completed (and by who)
 
