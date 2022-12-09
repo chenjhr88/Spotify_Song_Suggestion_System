@@ -531,11 +531,13 @@ string getSongRecommendation(Graph& g, string& songTitle, const string& category
     }
     // checks to see if song_vertex was updated. If the song title was not found within the list of vertices, the function will return and print a message
     if (song_vertex.vert_num == -1) {
+        cout<<""<<endl;
         return songTitle + " was not found in the database. Please try another song title.";
     }
     
     // runs when songTitle is found within the database
     songTitle = song_vertex.song_name;
+    cout<<""<<endl;
     cout << songTitle + " found within the database. Pulling up a song recommendation." << endl;
 
     map<pair<string, string>, double> mapofinterest;
@@ -566,8 +568,10 @@ string getSongRecommendation(Graph& g, string& songTitle, const string& category
         }
     }
     if (bestsong == "") {
+        cout<<""<<endl;
         return "We could not find any related songs to you requested song. Please try another song title and category combination.";
     }
+    cout<<""<<endl;
     return "Your song recommendation for " + songTitle + " under the " + category + " category is: " + bestsong + "\n";
 }
 

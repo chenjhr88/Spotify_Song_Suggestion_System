@@ -6,10 +6,14 @@ int main() {
     Graph g;
     g.insertVertices("../data/genres_v2.csv", "../data/data.csv");
 
+    cout<<"Song data acquired..."<<endl;
+    cout<<""<<endl;
     //sets the adjacency matrix to all zeros
     g.setAdjacencyMatrix(g.getVertices().size());
 
     //insert the edges on the song
+    cout<<"Creating map of your songs & song factors... please wait while we map your songs"<<endl;
+    cout<<""<<endl;
     for (unsigned i = 0; i < g.getVertices().size(); i++) {
         for (unsigned j = 0; j < g.getVertices().size(); j++) {
             g.insertEdge(i, j);
@@ -23,14 +27,18 @@ int main() {
     bool continueasking = true;
 
     while (continueasking) {
-        cout << "Enter the name of your favorite song and we will find a song recommendation for you!\nSong name: ";    
+        cout << "Enter the name of your favorite song and we will find a song recommendation for you!\n\nSong name: ";
+        cout<<""<<endl;
         string songTitle;
         getline(cin, songTitle);
-        cout << "Enter the category of interest (dancabililty, acousticness, energy)\nCategory: ";
+        cout << "Enter the category of interest (dancabililty, acousticness, energy)\n\nCategory: ";
+        cout<<""<<endl;
         string cat;
         getline(cin, cat);
         cout << getSongRecommendation(g, songTitle, cat) << endl;
+        cout<<""<<endl;
         cout << "Would you like to see recommendations for another song? (Y/N)" << endl;
+        cout<<""<<endl;
         string response;
         getline(cin, response);
         transform(response.begin(), response.end(), response.begin(), ::toupper);
