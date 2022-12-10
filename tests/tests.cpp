@@ -152,7 +152,25 @@ TEST_CASE("Test Song Recommendation - song not found", "[recs]")
     REQUIRE(test == expected);
 }
 
+TEST_CASE("Test Song Recommendation 2- song not found", "[recs]")
+{
+    Graph g;
+    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+    string song = "song_1";
+    string test = getSongRecommendation(g, song, "dancabililty");
+    string expected = "song_1 was not found in the database. Please try another song title.";
+    REQUIRE(test == expected);
+}
 
+TEST_CASE("Test Song Recommendation 3- song is found", "[recs]")
+{
+    Graph g;
+    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+    string song = "song 4";
+    string test = getSongRecommendation(g, song, "dancabililty");
+    string expected = "song 4 was not found in the database. Please try another song title";
+    REQUIRE(test != expected);
+}
 
 
 TEST_CASE("Test removeVertex for graph with NO edges", "[reVe1]" ) {
@@ -219,5 +237,45 @@ TEST_CASE("Test removeVertex for graph with edges", "[reVe2]") {
     /*std::cout << "go for next dance helper" << std::endl;
     removeVertHelperDanceTest(g, "dance");*/
 }
+
+//test case given faulty vertex to remove, shouldn't remove anything
+TEST_CASE("Test removeVertex for graph with edges w/ nonexistent vertex", "[reVe2]") {
+    Graph g;
+    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+   
+    std::cout << "insert Edges" << std::endl;
+    g.setAdjacencyMatrix(g.getVertices().size());
+
+    //insert the edges on the song
+    for (unsigned i = 0; i < g.getVertices().size(); i++) {
+        for (unsigned j = 0; j < g.getVertices().size(); j++) {
+            g.insertEdge(i, j);
+        }
+    }
+    
+    g.makeEdgeHueMapDance(g.getAdjacencyMatrix().size());
+    g.makeEdgeHueMapEnergy(g.getAdjacencyMatrix().size());
+    g.makeEdgeHueMapAcc(g.getAdjacencyMatrix().size());
+
+    
+    //removeVertHelperCharateristicTest(g, "acc");
+    //removeVertHelperCharateristicTest(g, "energy");
+    printAdjMatrix(g);
+
+    int to_remove = 107;
+    std::cout << "remove vert 107" << std::endl;
+    g.removeVertex(to_remove);
+    
+    
+    REQUIRE(removeVertHelperTest(g, to_remove) == false);
+    printAdjMatrix(g);
+    //removeVertHelperCharateristicTest(g, "acc");
+    //removeVertHelperCharateristicTest(g, "energy");
+    /*std::cout << "go for next dance helper" << std::endl;
+    removeVertHelperDanceTest(g, "dance");*/
+}
+
+
+
 
 
