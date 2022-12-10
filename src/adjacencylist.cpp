@@ -1,4 +1,5 @@
 #include "adjacencylist.h"
+#include "bfs_traversal.hpp"
 
 using namespace std;
 
