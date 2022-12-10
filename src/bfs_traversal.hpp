@@ -1,8 +1,9 @@
 #include "bfs_traversal.h"
+#include "adjacencylist.h"
 
 //Input: Graph g
 //Output: labeling of the edges on G as Discovery and cross edges
-int BFSTraversal(Graph g) {
+int Graph::BFSTraversal() {
     // std::cout << "BFS START!" << std::endl;
     /* for each (Vertex v: g.vertices()):
             setLabel(v, UNEXPLORED)
@@ -15,17 +16,27 @@ int BFSTraversal(Graph g) {
     */
     int num_nodes = 0;
     //set all vertices and edges to UNEXPLORED
-    for (Vertex v: g.getVertices()) {
-            g.setLabel(v, "UNEXPLORED");
-            for (size_t i = 0; i < v.edges.size(); ++i) {
-                g.setLabel(v.edges[i], "UNEXPLORED");
+    for (size_t i = 0; i < vertices.size(); ++i) {
+            //gotta call the index to actually change the labels?
+            setLabel(vertices[i], "UNEXPLORED");
+            for (size_t j = 0; j < vertices[i].edges.size(); ++j) {
+                vertices[i].edges[j].label = "UNEXPLORED";
+                //setLabel(v.edges[i], "UNEXPLORED");
             }
     }
 
-    for (Vertex v : g.getVertices()) {
-            if (g.getLabel(v) == "UNEXPLORED") {
-                // std::cout << "at vert " << v.vert_num << std::endl;
-                helperBFS(g, v, num_nodes);
+    /*for (Vertex v: vertices) {
+            std::cout << "vert " << v.vert_num << ": " << v.label << std::endl;
+            for (size_t i = 0; i < v.edges.size(); ++i) {
+                std::cout << "edge " << v.edges[i].dest << ": " << v.edges[i].label << std::endl;
+            }
+    }*/
+
+
+    for (size_t i = 0 ; i < vertices.size(); ++i) {
+            if (getLabel(vertices[i]) == "UNEXPLORED") {
+                //std::cout << "at vert " << vertices[i].vert_num << std::endl;
+                helperBFS(vertices[i], num_nodes);
             }
     }
 
@@ -33,7 +44,7 @@ int BFSTraversal(Graph g) {
    
 }
 
-void helperBFS(Graph g, Vertex v, int& num_nodes) {
+void Graph::helperBFS(Vertex v, int& num_nodes) {
     /*
         queue q
         setLabel(v, VISITED)
@@ -53,28 +64,38 @@ void helperBFS(Graph g, Vertex v, int& num_nodes) {
         }
     */
    std::queue<Vertex> q;
-   g.setLabel(v, "VISITED");
-   num_nodes++;
+   setLabel(v, "VISITED");
+    num_nodes++;
    q.push(v);
 
    while (!q.empty()) {
         Vertex v_temp = q.front();
-        
         q.pop();
-
-        for (Vertex w : g.getAdjacents(v_temp)) {
-            // std::cout << "connects to " << w.vert_num << std::endl;
-            if (g.getLabel(w) == "UNEXPLORED") {
+        std::vector<Vertex> v1 = getAdjacents(v_temp);
+        /*for (size_t i = 0 ; i < v1.size(); ++i) {
+            std::cout << "ASD " << v1[i].vert_num << std::endl;
+        }*/
+        for (Vertex w : v1) {
+            //std::cout << "connects to " << w.vert_num << std::endl;
+            if (getLabel(w) == "UNEXPLORED") {
+                //std::cout << "oh yeah hurry to the unexplored land" << std::endl;
                 //find where edges in w and v where v has w and w has v
                 //set the labels of those edges equal to "DISCOVERY"
-                g.setLabel(v_temp, w, "DISCOVERY");
-                g.setLabel(w, "VISITED");
+                setLabel(v_temp, w, "DISCOVERY");
+                setLabel(w, "VISITED");
                 num_nodes++;
                 q.push(w);
-            }   else if (g.getLabel(v_temp, w) == "UNEXPLORED") {
-                g.setLabel(v_temp, w, "CROSS");
+            }   else if (getLabel(v_temp, w) == "UNEXPLORED") {
+                //std::cout << "we see CROSS EDGE " << std::endl;
+                setLabel(v_temp, w, "CROSS");
             }
             
+            /*for (Vertex v: vertices) {
+                std::cout << "vert " << v.vert_num << ": " << v.label << std::endl;
+                for (size_t i = 0; i < v.edges.size(); ++i) {
+                    std::cout << "edge " << v.edges[i].dest << ": " << v.edges[i].label << std::endl;
+                }
+            }*/
         }
    }
 }

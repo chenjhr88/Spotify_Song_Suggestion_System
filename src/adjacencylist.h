@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iterator>
 #include <map>
+#include <queue>
 using namespace std;
 
 
@@ -85,10 +86,20 @@ class Graph {
         std::vector<double> getAllSongDance();
         std::vector<double> getAllSongAcc();
         std::vector<double> getAllSongEnergy();
-
+        
         double getDancability(string song);
         double getAcousticness(string song);
         double getEnergy(string song);
+
+        void removeVertex(int vert_num);
+        void removeEdgeDance(int vert_num1, int vert_num2);
+        void removeEdgeAcc(int vert_num1, int vert_num2);
+        void removeEdgeEnergy(int vert_num1, int vert_num2);
+
+
+        int BFSTraversal();
+
+
 
     private:
         std::vector<Vertex> vertices;
@@ -107,7 +118,7 @@ class Graph {
 
         //index represents vertex number
         //could put vector of edges here, but would have to be 2D vector
-        
+        void helperBFS(Vertex v, int& num_nodes);
 };
 
 string getSongRecommendation(Graph& g, string& songTitle, const string& category);
