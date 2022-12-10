@@ -16,6 +16,10 @@
 
 bool removeVertHelperTest(Graph g, int vert_num) {
     std::vector<Vertex> vertices = g.getVertices();
+    if (vert_num < 0 || vert_num > (int)vertices.size()) {
+        std::cout << "invalid vertex" << std::endl;
+        return false;
+    }
     for (size_t i = 0; i < vertices.size(); ++i) {
         if (vertices[i].vert_num == vert_num) {
             std::cout << "this vertex wasn't even removed" << std::endl;
@@ -69,7 +73,7 @@ void printAdjMatrix(Graph g) {
 TEST_CASE("Read From CSV Test", "[valgrind][weight=2][csv]")
 {
     Graph g;
-    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+    g.insertVertices("../tests/test_insertVertices_data.csv", "../tests/test_insertVertices_writedata.csv");
     vector<Edge> edge;
     Vertex expected = {1,0.8,0,0.8, "song 1" , "", edge};
 
@@ -145,7 +149,7 @@ TEST_CASE("BFS Test 3", "[valgrind][weight=1]")
 TEST_CASE("Test Song Recommendation - song not found", "[recs]")
 {
     Graph g;
-    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+    g.insertVertices("../tests/test_insertVertices_data.csv", "../tests/test_insertVertices_writedata.csv");
     string song = "song 5";
     string test = getSongRecommendation(g, song, "dancabililty");
     string expected = "song 5 was not found in the database. Please try another song title.";
@@ -155,7 +159,7 @@ TEST_CASE("Test Song Recommendation - song not found", "[recs]")
 TEST_CASE("Test Song Recommendation 2- song not found", "[recs]")
 {
     Graph g;
-    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+    g.insertVertices("../tests/test_insertVertices_data.csv", "../tests/test_insertVertices_writedata.csv");
     string song = "song_1";
     string test = getSongRecommendation(g, song, "dancabililty");
     string expected = "song_1 was not found in the database. Please try another song title.";
@@ -165,7 +169,7 @@ TEST_CASE("Test Song Recommendation 2- song not found", "[recs]")
 TEST_CASE("Test Song Recommendation 3- song is found", "[recs]")
 {
     Graph g;
-    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+    g.insertVertices("../tests/test_insertVertices_data.csv", "../tests/test_insertVertices_writedata.csv");
     string song = "song 4";
     string test = getSongRecommendation(g, song, "dancabililty");
     string expected = "song 4 was not found in the database. Please try another song title";
@@ -175,7 +179,7 @@ TEST_CASE("Test Song Recommendation 3- song is found", "[recs]")
 
 TEST_CASE("Test removeVertex for graph with NO edges", "[reVe1]" ) {
     Graph g;
-    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+    g.insertVertices("../tests/test_insertVertices_data.csv", "../tests/test_insertVertices_writedata.csv");
     g.setAdjacencyMatrix(g.getVertices().size());
 
     
@@ -204,7 +208,7 @@ TEST_CASE("Test removeVertex for graph with NO edges", "[reVe1]" ) {
 
 TEST_CASE("Test removeVertex for graph with edges", "[reVe2]") {
     Graph g;
-    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+    g.insertVertices("../tests/test_insertVertices_data.csv", "../tests/test_insertVertices_writedata.csv");
    
     std::cout << "insert Edges" << std::endl;
     g.setAdjacencyMatrix(g.getVertices().size());
@@ -241,7 +245,7 @@ TEST_CASE("Test removeVertex for graph with edges", "[reVe2]") {
 //test case given faulty vertex to remove, shouldn't remove anything
 TEST_CASE("Test removeVertex for graph with edges w/ nonexistent vertex", "[reVe2]") {
     Graph g;
-    g.insertVertices("../tests/test_insertVerticies_data.csv", "../tests/test_insertVerticies_writedata.csv");
+    g.insertVertices("../tests/test_insertVertices_data.csv", "../tests/test_insertVertices_writedata.csv");
    
     std::cout << "insert Edges" << std::endl;
     g.setAdjacencyMatrix(g.getVertices().size());
@@ -268,6 +272,42 @@ TEST_CASE("Test removeVertex for graph with edges w/ nonexistent vertex", "[reVe
     
     
     REQUIRE(removeVertHelperTest(g, to_remove) == false);
+    printAdjMatrix(g);
+    //removeVertHelperCharateristicTest(g, "acc");
+    //removeVertHelperCharateristicTest(g, "energy");
+    /*std::cout << "go for next dance helper" << std::endl;
+    removeVertHelperDanceTest(g, "dance");*/
+}
+
+TEST_CASE("Test removeVertex for graph with edges 2", "[reVe2]") {
+    Graph g;
+    g.insertVertices("../tests/test_insertVertices_data.csv", "../tests/test_insertVertices_writedata.csv");
+   
+    std::cout << "insert Edges" << std::endl;
+    g.setAdjacencyMatrix(g.getVertices().size());
+
+    //insert the edges on the song
+    for (unsigned i = 0; i < g.getVertices().size(); i++) {
+        for (unsigned j = 0; j < g.getVertices().size(); j++) {
+            g.insertEdge(i, j);
+        }
+    }
+    
+    g.makeEdgeHueMapDance(g.getAdjacencyMatrix().size());
+    g.makeEdgeHueMapEnergy(g.getAdjacencyMatrix().size());
+    g.makeEdgeHueMapAcc(g.getAdjacencyMatrix().size());
+
+    
+    //removeVertHelperCharateristicTest(g, "acc");
+    //removeVertHelperCharateristicTest(g, "energy");
+    printAdjMatrix(g);
+
+    int to_remove = 0;
+    std::cout << "remove vert 0" << std::endl;
+    g.removeVertex(to_remove);
+    
+    
+    REQUIRE(removeVertHelperTest(g, to_remove) == true);
     printAdjMatrix(g);
     //removeVertHelperCharateristicTest(g, "acc");
     //removeVertHelperCharateristicTest(g, "energy");
