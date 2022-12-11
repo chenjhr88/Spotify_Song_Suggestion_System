@@ -242,7 +242,6 @@ TEST_CASE("Test removeVertex for graph with edges", "[reVe2]") {
     removeVertHelperDanceTest(g, "dance");*/
 }
 
-//test case given faulty vertex to remove, shouldn't remove anything
 TEST_CASE("Test removeVertex for graph with edges w/ nonexistent vertex", "[reVe2]") {
     Graph g;
     g.insertVertices("../tests/test_insertVertices_data.csv", "../tests/test_insertVertices_writedata.csv");
