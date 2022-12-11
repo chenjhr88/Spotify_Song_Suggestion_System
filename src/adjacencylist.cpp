@@ -7,8 +7,12 @@ using namespace std;
  */
 Graph::Graph() {}
 
+//
+//FUNCTIONS PERTAINING TO ADJACENCY LIST
+//
+
 /**
- * Builds an adjacency list from and adjacency matrix
+ * Builds an adjacency list from an adjacency matrix
  * @param adjacencyMatrix matrix to be built as a list
  */
 void Graph::convertToAdjacencyList(vector<vector<int>> adjacencyMatrix) {
@@ -22,7 +26,6 @@ void Graph::convertToAdjacencyList(vector<vector<int>> adjacencyMatrix) {
     }
 }
 
-
 /**
  * Returns the graph's adjacency list
  */
@@ -30,88 +33,32 @@ vector<vector<int>> Graph::getAdjacencyList() {
     return adjacencyList;
 }
 
-map<pair<string, string>, double> Graph::getEdgesToHuesDance() {
-    return edges_to_hues_dance;
-}
+//
+//FUNCTIONS PERTAINING TO THE HUE OF AN EDGE ON OUR GRAPH
+//
 
-map<pair<string, string>, double> Graph::getEdgesToHuesAcc() {
-    return edges_to_hues_acc;
-}
-
-map<pair<string, string>, double> Graph::getEdgesToHuesEnergy() {
-    return edges_to_hues_energy;
-}
-
-
-//the default hue is the avergage value of the two factors of the songs connected by an edge determined earlier (ie. average dancability for songs)
-//after the default hue is applied, we may change the hue accordingly to the changeHue formula
-//for no edge for songs, the hue is 0
-void Graph::makeEdgeHueMapDance(int size) {
-
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            std::pair<string,string> edge = std::make_pair(vertices.at(i).song_name, vertices.at(j).song_name);
-            if (adjacency_matrix[i][j] == 1) {
-                edges_to_hues_dance.insert({edge, (vertices.at(i).dancability + vertices.at(j).dancability)/2});
-                changeHue(vertices.at(i).song_name, vertices.at(j).song_name, "dancability");
-            } else {
-                edges_to_hues_dance.insert({edge, 0});
-            }
-        }
-    }
-}
-
-void Graph::makeEdgeHueMapAcc(int size) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            std::pair<string,string> edge = std::make_pair(vertices.at(i).song_name, vertices.at(j).song_name);
-            if (adjacency_matrix[i][j] == 1) {
-                edges_to_hues_acc.insert({edge, (vertices.at(i).acousticness + vertices.at(j).acousticness)/2});
-                changeHue(vertices.at(i).song_name, vertices.at(j).song_name, "acousticness");
-            } else {
-                edges_to_hues_acc.insert({edge, 0.5});
-            }
-        }
-    }
-}
-
-void Graph::makeEdgeHueMapEnergy(int size) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            std::pair<string,string> edge = std::make_pair(vertices.at(i).song_name, vertices.at(j).song_name);
-            if (adjacency_matrix[i][j] == 1) {
-                edges_to_hues_energy.insert({edge, (vertices.at(i).energy + vertices.at(j).energy)/2});
-                changeHue(vertices.at(i).song_name, vertices.at(j).song_name, "energy");
-            } else {
-                edges_to_hues_energy.insert({edge, 0.5});
-            }
-        }
-    }
-}
-
-
-
-//the default hue along the edge for connected nodes is the averge factor (dancability, acousticness, energy) value for the songs
-//for songs with no edge connecting them, the hue is zero, and this algorithm will not be called during the map build
-//changes the hue for map<pair<string, string>, int> edges_to_hues_dance, edges_to_hues_acc, edges_to_hues_energy
-//if two songs have a factor (dancability, acousticness, energy) value within 0.05 of eachother, the edge hue increases by 2.5
-//if two songs have a factor (dancability, acousticness, energy) value within 0.1 of eachother, the edge hue increases by 2
-//if two songs have a factor (dancability, acousticness, energy) value within 0.2 of eachother, the edge hue increases by 1.5
-//if two songs have a factor (dancability, acousticness, energy) value within 0.25 of eachother, the edge hue increases by 1
-
+/**
+ * Changes the hue on the edge between two vertices (songs) based on the factor inputted by the user
+ * The default hue along the edge for connected nodes is the averge factor (dancebility, acousticness, energy) value for the songs
+ * For songs with no edge connecting them, the hue is zero, and this algorithm will not be called during the map build
+ * Changes the hue for map<pair<string, string>, int> edges_to_hues_dance, edges_to_hues_acc, edges_to_hues_energy
+ * @param song1 which is the first vertex accounted for
+ * @param song2 which is the second vertex accounted for
+ * @param factor which is inputted by the user (ie. dancebility, acousticness, energy)
+ */
 void Graph::changeHue(string song1, string song2, string factor) {
 
-    if (factor == "dancability") {
+    if (factor == "dancebility") {
         std::pair<string,string> looking_for = std::make_pair(song1, song2);
         std::map<pair<string, string>, double>::iterator it = edges_to_hues_dance.find(looking_for); 
         if (it != edges_to_hues_dance.end()) {
-            if ((abs(getDancability(it->first.first)-getDancability(it->first.second)) <= 0.01)) {
+            if ((abs(getDancebility(it->first.first)-getDancebility(it->first.second)) <= 0.01)) {
                 it->second += 3.5;
-            } else if ((abs(getDancability(it->first.first)-getDancability(it->first.second)) <= 0.05)) {
+            } else if ((abs(getDancebility(it->first.first)-getDancebility(it->first.second)) <= 0.05)) {
                 it->second += 2;
-            } else if ((abs(getDancability(it->first.first)-getDancability(it->first.second)) <= 0.15)) {
+            } else if ((abs(getDancebility(it->first.first)-getDancebility(it->first.second)) <= 0.15)) {
                 it->second += 1;
-            } else if ((abs(getDancability(it->first.first)-getDancability(it->first.second)) <= 0.1)) {
+            } else if ((abs(getDancebility(it->first.first)-getDancebility(it->first.second)) <= 0.1)) {
                 it->second += .25;
             }
         }
@@ -151,15 +98,23 @@ void Graph::changeHue(string song1, string song2, string factor) {
 
 }
 
-double Graph::getDancability(string song) {
+/**
+ * Returns the dancebility factor (double) for a song
+ * @param song which is the song to output the factor for
+ */
+double Graph::getDancebility(string song) {
     for (unsigned i = 0; i < vertices.size(); i++) {
         if (vertices[i].song_name == song) {
-            return vertices[i].dancability;
+            return vertices[i].dancebility;
         }
     }
     return 0;
 }
 
+/**
+ * Returns the acousticness factor (double) for a song
+ * @param song which is the song to output the factor for
+ */
 double Graph::getAcousticness(string song) {
     for (unsigned i = 0; i < vertices.size(); i++) {
         if (vertices[i].song_name == song) {
@@ -169,6 +124,10 @@ double Graph::getAcousticness(string song) {
     return 0;
 }
 
+/**
+ * Returns the energy factor (double) for a song
+ * @param song which is the song to output the factor for
+ */
 double Graph::getEnergy(string song) {
     for (unsigned i = 0; i < vertices.size(); i++) {
         if (vertices[i].song_name == song) {
@@ -178,8 +137,90 @@ double Graph::getEnergy(string song) {
     return 0;
 }
 
+/**
+ * Returns the map for the edges to hues of the edges on the graph pertaining to the dancebility factor of songs
+ */
+map<pair<string, string>, double> Graph::getEdgesToHuesDance() {
+    return edges_to_hues_dance;
+}
 
+/**
+ * Returns the map for the edges to hues of the edges on the graph pertaining to the acousticness factor of songs
+ */
+map<pair<string, string>, double> Graph::getEdgesToHuesAcc() {
+    return edges_to_hues_acc;
+}
 
+/**
+ * Returns the map for the edges to hues of the edges on the graph pertaining to the energy factor of songs
+ */
+map<pair<string, string>, double> Graph::getEdgesToHuesEnergy() {
+    return edges_to_hues_energy;
+}
+
+/**
+ * Creates a map between the edges to the hues of edges on graph pertaining to the dancebility factor of songs
+ * The default hue is the average value of the dancebility factors of the two songs connected by an edge determined earlier
+ * After the default hue is applied, we may change the hue accordingly to the changeHue formula
+ * For two songs with no edge between them, the hue is 0
+ * @param size of the adjacency matrix to map the songs accordingly
+ */
+void Graph::makeEdgeHueMapDance(int size) {
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            std::pair<string,string> edge = std::make_pair(vertices.at(i).song_name, vertices.at(j).song_name);
+            if (adjacency_matrix[i][j] == 1) {
+                edges_to_hues_dance.insert({edge, (vertices.at(i).dancebility + vertices.at(j).dancebility)/2});
+                changeHue(vertices.at(i).song_name, vertices.at(j).song_name, "dancebility");
+            } else {
+                edges_to_hues_dance.insert({edge, 0});
+            }
+        }
+    }
+}
+
+/**
+ * Creates a map between the edges to the hues of edges on graph pertaining to the acousticness factor of songs
+ * The default hue is the average value of the acousticness factors of the two songs connected by an edge determined earlier
+ * After the default hue is applied, we may change the hue accordingly to the changeHue formula
+ * For two songs with no edge between them, the hue is 0
+ * @param size of the adjacency matrix to map the songs accordingly
+ */
+void Graph::makeEdgeHueMapAcc(int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            std::pair<string,string> edge = std::make_pair(vertices.at(i).song_name, vertices.at(j).song_name);
+            if (adjacency_matrix[i][j] == 1) {
+                edges_to_hues_acc.insert({edge, (vertices.at(i).acousticness + vertices.at(j).acousticness)/2});
+                changeHue(vertices.at(i).song_name, vertices.at(j).song_name, "acousticness");
+            } else {
+                edges_to_hues_acc.insert({edge, 0});
+            }
+        }
+    }
+}
+
+/**
+ * Creates a map between the edges to the hues of edges on graph pertaining to the energy factor of songs
+ * The default hue is the average value of the energy factors of the two songs connected by an edge determined earlier
+ * After the default hue is applied, we may change the hue accordingly to the changeHue formula
+ * For two songs with no edge between them, the hue is 0
+ * @param size of the adjacency matrix to map the songs accordingly
+ */
+void Graph::makeEdgeHueMapEnergy(int size) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            std::pair<string,string> edge = std::make_pair(vertices.at(i).song_name, vertices.at(j).song_name);
+            if (adjacency_matrix[i][j] == 1) {
+                edges_to_hues_energy.insert({edge, (vertices.at(i).energy + vertices.at(j).energy)/2});
+                changeHue(vertices.at(i).song_name, vertices.at(j).song_name, "energy");
+            } else {
+                edges_to_hues_energy.insert({edge, 0});
+            }
+        }
+    }
+}
 
 /**
  * Determines if a vector contains an item of interest
@@ -195,40 +236,21 @@ bool Graph::contains(std::vector<std::string> my_vec, std::string item_looking) 
     return false;
 }
 
-/**
- * This function will insert vertices from the given file and input them into the graph's vector of vertices
- * @param string filename name of the file to be read and parsed for data
- */
-void Graph::insertVertices(string filename, string filewrite) {
-    // read csv file
-    // ifstream to read file
-    // split string by ',' or ' '
-    // string to double (stod)
-    translateData(filename, filewrite);
-    ifstream ifs(filewrite);
-    if (ifs.good()) {
-        // read each line, each line represnts a vertex
-        for (string line ; getline(ifs, line); ) {
-            vector<string> insert;
-            SplitString(line, ',', insert);
-            std::vector<Edge> edges;
-            // get the song name + characteristics (dancability, acousticness, energy)
-            // create the vertex struct
-            Vertex to_insert = {std::stoi(insert.at(0)), std::stod(insert.at(1)), 0, std::stod(insert.at(2)), insert.at(3), "", edges};
-            // add the vertex to the vertices vector if song title is not empty
-            if (to_insert.song_name != "") {
-                vertices.push_back(to_insert);    
-            }
-        }
-    }
-}
+//
+//FUNCTIONS TRANSLATING INPUTTED DATA INTO MEANINGFUL DATA STRUCTURES
+//
 
 /** 
  * Splits a string by a character and places into a std::vector<std::string> passed in by reference
  * @param str1 string to be split
  * @param sep char to define where string will be split
  * @param fields vector of where split strings will be placed
- */ 
+ * 
+ * Function: SplitString
+ * Author: CS225 Staff
+ * Date: 2022
+ * Original Code From: FA22 Release mp_schedule
+ **/ 
 void Graph::SplitString(const std::string & str1, char sep, std::vector<std::string> &fields) {
     std::string str = str1;
     std::string::size_type pos;
@@ -265,6 +287,10 @@ void Graph::translateData(const std::string& datainput, const std::string& datao
     }
 }
 
+//
+//FUNCTIONS FOR INSERTING ELEMENTS INTO THE GRAPH CORRECTLY
+//
+
 /**
  * inserts a vertex into the graph
  * @param v vertex to be inserted
@@ -275,7 +301,7 @@ void Graph::insertVertex(Vertex v) {
 
 /**
  * Inserts edge between two vertices
- * The default edge should have a minimum difference of just 0.3. Change hue will specify the likeness further.
+ * The default edge between two songs should have a minimum difference (for at least 1 factor) of just 0.1. Change hue will specify the likeness further.
  * @param v1 vertex one to build an edge between v2
  * @param v2 vertex two to build an edge between v1
  */
@@ -283,23 +309,52 @@ void Graph::insertEdge(int v1, int v2) {
     Edge e1 = {0, v2, ""};
     Edge e2 = {0, v1, ""};
 
-    if ((abs(vertices.at(v1).dancability-vertices.at(v2).dancability) <= 0.1) || (abs(vertices.at(v1).energy-vertices.at(v2).energy) <= 0.1) || (abs(vertices.at(v1).acousticness-vertices.at(v2).acousticness) <= 0.1)) {
+    if ((abs(vertices.at(v1).dancebility-vertices.at(v2).dancebility) <= 0.1) || (abs(vertices.at(v1).energy-vertices.at(v2).energy) <= 0.1) || (abs(vertices.at(v1).acousticness-vertices.at(v2).acousticness) <= 0.1)) {
         vertices.at(v1).edges.push_back(e1);
-        //vertices.at(v2).edges.push_back(e2);
         if (vertices.at(v1).song_name != vertices.at(v2).song_name) {
             adjacency_matrix[v1][v2] = 1;
-            //adjacency_matrix[v2][v1] = 1;
         } else {
             adjacency_matrix[v1][v2] = 0;
-            //adjacency_matrix[v2][v1] = 0;
         }
     } else {
         adjacency_matrix[v1][v2] = 0;
-        //adjacency_matrix[v2][v1] = 0;
     }
-
-    // std::cout << vertices.at(v1).edges.at(0).dest << std::endl;
 }
+
+/**
+ * This function will insert vertices from the given file and input them into the graph's vector of vertices
+ * @param filename name of the file to be read and parsed for data
+ * @param filewrite name of the file for data to be written to
+ * 
+ */
+void Graph::insertVertices(string filename, string filewrite) {
+    // read csv file
+    // ifstream to read file
+    // split string by ',' or ' '
+    // string to double (stod)
+    translateData(filename, filewrite);
+    ifstream ifs(filewrite);
+    if (ifs.good()) {
+        // read each line, each line represnts a vertex
+        for (string line ; getline(ifs, line); ) {
+            vector<string> insert;
+            SplitString(line, ',', insert);
+            std::vector<Edge> edges;
+            // get the song name + characteristics (dancebility, acousticness, energy)
+            // create the vertex struct
+            Vertex to_insert = {std::stoi(insert.at(0)), std::stod(insert.at(1)), 0, std::stod(insert.at(2)), insert.at(3), "", edges};
+            // add the vertex to the vertices vector if song title is not empty
+            if (to_insert.song_name != "") {
+                vertices.push_back(to_insert);    
+            }
+        }
+    }
+}
+
+
+//
+//FUNCTIONS FOR THE GRAPH ADJACENCY MATRIX
+//
 
 vector<vector<int>> Graph::getAdjacencyMatrix() {
     return adjacency_matrix;
@@ -314,6 +369,57 @@ void Graph::setAdjacencyMatrix(int size) {
         adjacency_matrix.push_back(temp);
     }
 }
+
+
+//
+//FUNCTIONS FOR ACCESSING GRAPH PROPERTIES OF DATASET
+//
+
+/**
+ * Returns vector of all song titles within the inputted dataset
+ */
+std::vector<string> Graph::getAllSongTitles(){
+    all_songs.clear();
+    for (size_t i = 0; i < vertices.size(); i++) {
+        all_songs.push_back(vertices.at(i).song_name);
+    }
+    return all_songs;
+}
+
+/**
+ * Returns vector of all song danacbility factor values (double) within the inputted dataset
+ */
+std::vector<double> Graph::getAllSongDance(){
+    all_dance.clear();
+    for (size_t i = 0; i < vertices.size(); i++) {
+        all_dance.push_back(vertices.at(i).dancebility);
+    }
+    return all_dance;
+}
+
+/**
+ * Returns vector of all song acousticness factor values (double) within the inputted dataset
+ */
+std::vector<double> Graph::getAllSongAcc(){
+    all_acc.clear();
+    for (size_t i = 0; i < vertices.size(); i++) {
+        all_acc.push_back(vertices.at(i).acousticness);
+    }
+    return all_acc;
+}
+
+/**
+ * Returns vector of all song energy factor values (double) within the inputted dataset
+ */
+std::vector<double> Graph::getAllSongEnergy(){
+    all_energy.clear();
+    for (size_t i = 0; i < vertices.size(); i++) {
+        all_energy.push_back(vertices.at(i).energy);
+    }
+    return all_energy;
+}
+
+
 //
 //FUNCTIONS FOR ACCESSING GRAPH VERTICES AND EDGES
 //
@@ -323,38 +429,6 @@ void Graph::setAdjacencyMatrix(int size) {
  */
 std::vector<Vertex> Graph::getVertices() {
     return vertices;
-}
-
-std::vector<string> Graph::getAllSongTitles(){
-    all_songs.clear();
-    for (size_t i = 0; i < vertices.size(); i++) {
-        all_songs.push_back(vertices.at(i).song_name);
-    }
-    return all_songs;
-}
-
-std::vector<double> Graph::getAllSongDance(){
-    all_dance.clear();
-    for (size_t i = 0; i < vertices.size(); i++) {
-        all_dance.push_back(vertices.at(i).dancability);
-    }
-    return all_dance;
-}
-
-std::vector<double> Graph::getAllSongAcc(){
-    all_acc.clear();
-    for (size_t i = 0; i < vertices.size(); i++) {
-        all_acc.push_back(vertices.at(i).acousticness);
-    }
-    return all_acc;
-}
-
-std::vector<double> Graph::getAllSongEnergy(){
-    all_energy.clear();
-    for (size_t i = 0; i < vertices.size(); i++) {
-        all_energy.push_back(vertices.at(i).energy);
-    }
-    return all_energy;
 }
 
 /**
@@ -414,7 +488,6 @@ void Graph::setLabel(Vertex& v, std::string label_str) {
     }
     
 }
-
 
 /**
  * Retrieves the label of an edge of interest
@@ -552,6 +625,11 @@ void Graph::setLabel(Vertex& v, Vertex& w, std::string label_str) {
     //std::cout << "w " << vertices[w_idx].vert_num << " at: " << vertices[w_idx].edges.at(w_edge_idx).label << std::endl;
 }
 
+
+//
+//FUNCTION FOR RECOMMENDING A SONG BASED ON THE MAP/GRAPH STRUCTURE
+//
+
 /**
  * prints out a song recommendation based off of the inputed graph and song title
  * @param g Graph of all vertices and edges to generate a song recommendation
@@ -587,7 +665,7 @@ string getSongRecommendation(Graph& g, string& songTitle, const string& category
     cout << songTitle + " found within the database. Pulling up a song recommendation." << endl;
 
     map<pair<string, string>, double> mapofinterest;
-    if (category == "dancability")
+    if (category == "dancebility")
         mapofinterest = g.getEdgesToHuesDance();
     else if (category == "acousticness")
         mapofinterest = g.getEdgesToHuesAcc();
@@ -601,9 +679,6 @@ string getSongRecommendation(Graph& g, string& songTitle, const string& category
     vector<string> all_songs = g.getAllSongTitles();
     for (size_t i = 0; i < all_songs.size(); i++) {
         if (songTitle != all_songs.at(i)) {
-            // songTitle -> itr->first.first
-            // other song -> itr->first.second
-            // strength -> itr->second
             for (auto itr = mapofinterest.begin(); itr != mapofinterest.end(); ++itr) {
                 if (songTitle == itr->first.first && all_songs.at(i) == itr->first.second && strength < itr->second) {
                     strength = itr->second;
@@ -618,19 +693,5 @@ string getSongRecommendation(Graph& g, string& songTitle, const string& category
         return "We could not find any related songs to you requested song. Please try another song title and category combination.";
     }
     cout<<""<<endl;
-    return "Your song recommendation for " + songTitle + " under the " + category + " category is: " + bestsong + "\n";
-}
-
-vector<vector<string>> Graph::vertexToString() {
-    vector<vector<string>> out;
-    out.resize(vertices.size());
-    for (size_t vert_num = 0; vert_num < vertices.size(); vert_num++) {
-        out[vert_num].push_back(to_string(vertices[vert_num].vert_num));
-        out[vert_num].push_back(to_string(vertices[vert_num].dancability));
-        out[vert_num].push_back(to_string(vertices[vert_num].acousticness));
-        out[vert_num].push_back(to_string(vertices[vert_num].energy));
-        out[vert_num].push_back(vertices[vert_num].song_name);
-        out[vert_num].push_back(vertices[vert_num].label);
-    }
-    return out;
+    return "Your song recommendation for \"" + songTitle + "\" under the \'" + category + "\' category is: \"" + bestsong + "\"\n";
 }

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctype.h>
+#include <vector>
 #include <time.h>
 #include "adjacencylist.cpp"
 #include "bfs_traversal.hpp"
@@ -141,7 +142,7 @@ TEST_CASE("BFS Test 3", "[valgrind][weight=1]")
     REQUIRE(num_n == 3);
 }
 
-
+//this verifies hue function & adjacency matrix
 TEST_CASE("Test Song Recommendation - song not found", "[recs]")
 {
     Graph g;
@@ -152,8 +153,32 @@ TEST_CASE("Test Song Recommendation - song not found", "[recs]")
     REQUIRE(test == expected);
 }
 
+//this verifies hue function & adjacency matrix
+TEST_CASE("Test Song Recommendation - Songs Found (3 assertions)", "[recs]")
+{
+    Graph g;
+    g.insertVertices("../data/genres_v2.csv", "../data/data.csv");  
+    g.setAdjacencyMatrix(g.getVertices().size());
+    for (unsigned i = 0; i < g.getVertices().size(); i++) {
+        for (unsigned j = 0; j < g.getVertices().size(); j++) {
+            g.insertEdge(i, j);
+        }
+    }
+    g.makeEdgeHueMapEnergy(g.getAdjacencyMatrix().size());
+
+    string song = "Hard to Remember";
+    string test1 = getSongRecommendation(g, song, "energy");
+    string expected1 = "Your song recommendation for \"Hard to Remember\" under the \'energy\' category is: \"Reign In Blood\"\n";
+    REQUIRE(test1 == expected1);
+}
 
 
+TEST_CASE("Test Adjacency Matrix Set - empty", "[none]" ) {
+    Graph g;
+    g.setAdjacencyMatrix(4);
+    REQUIRE(g.getAdjacencyMatrix()[0].size() == 4);
+    REQUIRE(g.getAdjacencyMatrix().size() == 4);
+}
 
 TEST_CASE("Test removeVertex for graph with NO edges", "[reVe1]" ) {
     Graph g;
@@ -165,9 +190,6 @@ TEST_CASE("Test removeVertex for graph with NO edges", "[reVe1]" ) {
     g.makeEdgeHueMapEnergy(g.getAdjacencyMatrix().size());
     g.makeEdgeHueMapAcc(g.getAdjacencyMatrix().size());
 
-    
-    //removeVertHelperCharateristicTest(g, "acc");
-    //removeVertHelperCharateristicTest(g, "energy");
     printAdjMatrix(g);
 
     int to_remove = 1;
@@ -177,12 +199,7 @@ TEST_CASE("Test removeVertex for graph with NO edges", "[reVe1]" ) {
     
     REQUIRE(removeVertHelperTest(g, to_remove) == true);
     printAdjMatrix(g);
-    //removeVertHelperCharateristicTest(g, "acc");
-    //removeVertHelperCharateristicTest(g, "energy");
-    /*std::cout << "go for next dance helper" << std::endl;
-    removeVertHelperDanceTest(g, "dance");*/
 }
-
 
 TEST_CASE("Test removeVertex for graph with edges", "[reVe2]") {
     Graph g;
@@ -202,9 +219,6 @@ TEST_CASE("Test removeVertex for graph with edges", "[reVe2]") {
     g.makeEdgeHueMapEnergy(g.getAdjacencyMatrix().size());
     g.makeEdgeHueMapAcc(g.getAdjacencyMatrix().size());
 
-    
-    //removeVertHelperCharateristicTest(g, "acc");
-    //removeVertHelperCharateristicTest(g, "energy");
     printAdjMatrix(g);
 
     int to_remove = 0;
@@ -214,10 +228,6 @@ TEST_CASE("Test removeVertex for graph with edges", "[reVe2]") {
     
     REQUIRE(removeVertHelperTest(g, to_remove) == true);
     printAdjMatrix(g);
-    //removeVertHelperCharateristicTest(g, "acc");
-    //removeVertHelperCharateristicTest(g, "energy");
-    /*std::cout << "go for next dance helper" << std::endl;
-    removeVertHelperDanceTest(g, "dance");*/
 }
 
 

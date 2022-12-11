@@ -20,19 +20,19 @@ int main() {
         }
     }
 
+    //creates individual maps for factors
     g.makeEdgeHueMapDance(g.getAdjacencyMatrix().size());
     g.makeEdgeHueMapEnergy(g.getAdjacencyMatrix().size());
     g.makeEdgeHueMapAcc(g.getAdjacencyMatrix().size());
 
     bool continueasking = true;
 
+    //beginning user interation
     while (continueasking) {
         cout << "Enter the name of your favorite song and we will find a song recommendation for you!\n\nSong name: ";
-        cout<<""<<endl;
         string songTitle;
         getline(cin, songTitle);
-        cout << "Enter the category of interest (dancabililty, acousticness, energy)\n\nCategory: ";
-        cout<<""<<endl;
+        cout << "\nEnter the category of interest (dancebility, acousticness, energy)\n\nCategory: ";
         string cat;
         getline(cin, cat);
         cout << getSongRecommendation(g, songTitle, cat) << endl;

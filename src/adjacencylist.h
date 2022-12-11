@@ -27,7 +27,7 @@ struct Vertex {
     //this int will help identify what vertex we're looking at
     int vert_num;
     //insert characteristics
-    double dancability;
+    double dancebility;
     double acousticness;
     double energy;
     std::string song_name;
@@ -43,7 +43,6 @@ struct Vertex {
 class Graph {
     public:
         Graph();
-        std::vector<std::vector<int>> buildAdjacencyMatrix(std::vector<std::vector<std::string>> my_input);
         bool contains(std::vector<std::string> my_vec, std::string item_looking);
         void insertVertices(string filename, string filewrite);
         void translateData(const std::string& datainput, const std::string& dataoutput);
@@ -87,7 +86,7 @@ class Graph {
         std::vector<double> getAllSongAcc();
         std::vector<double> getAllSongEnergy();
         
-        double getDancability(string song);
+        double getDancebility(string song);
         double getAcousticness(string song);
         double getEnergy(string song);
 
