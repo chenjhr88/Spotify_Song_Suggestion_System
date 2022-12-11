@@ -28,14 +28,16 @@ void Graph::removeVertex(int vert_num) {
     size_t i = 0;
     //used to update the adj matrix
     size_t l = 0;
+    
+    //go through all vertices
     while (i < vertices.size()) {
-        //std::cout << "now we at vertex " << vertices[i].vert_num << std::endl;
-        /*std::cout << "edge size " << vertices[i].edges.size() << std::endl;
-        for (size_t j = 0; j < vertices[i].edges.size(); ++j) {
 
-            std::cout << "point to " << vertices[i].edges[j].dest << " at vertex " << vertices[i].vert_num << std::endl;
-        }*/
-        
+        //if current vertex has same vert_num as specified vert_num, 
+        //  we delete all edges in current vertex's vector of edges and update the adj matrix accordingly
+        //  then we erase the current vertex from the vertices vector
+        //if current vertex doesn't have same vert_num as specified vert_num,
+        //  then check if the current vertex's vector of edges contains the vert_num
+        //  if it does, delete that edge from that vector
         if (vert_num == vertices[i].vert_num) {
             size_t j = 0;
             size_t k = 0;
@@ -49,10 +51,11 @@ void Graph::removeVertex(int vert_num) {
         }   else {
             size_t j = 0;
             while (j < vertices[i].edges.size()) {
+                //used k to update adj matrix
                 size_t k = 0;
-                //std::cout << "edge " << vertices[i].edges[j].dest << std::endl;
+
                 if (vertices[i].edges[j].dest == vert_num) {
-                    //std::cout << "remove " << vertices[i].edges[j].dest << " at vertex " << vertices[i].vert_num << std::endl;
+
                     vertices[i].edges.erase(vertices[i].edges.begin() + j);
                     adjacency_matrix[l][k] = 0;
                 }   else {
@@ -81,7 +84,6 @@ void Graph::removeEdgeDance(int vert_num1, int vert_num2) {
     if (edges_to_hues_dance.find(edge_dance_key) == edges_to_hues_dance.end()) {
         std::cout << "This doesn't Exist!" << std::endl;
     }   else {
-        //std::cout << "key: (" << edge_dance_key.first << ", " << edge_dance_key.second << "), value: " << std::endl;
         edges_to_hues_dance.erase(edge_dance_key);
     }
     
