@@ -114,9 +114,6 @@ class Graph {
         std::vector<double> all_acc;
         std::vector<double> all_energy;
 
-
-        //index represents vertex number
-        //could put vector of edges here, but would have to be 2D vector
         void helperBFS(Vertex v, int& num_nodes);
 };
 

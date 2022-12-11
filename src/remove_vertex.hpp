@@ -1,5 +1,9 @@
 #include "remove_vertex.h"
 
+/** 
+ * deletes a specified vertex and any information related to that vertex based on the given vert_num
+ * @param vert_num vertex number of the vertex that needs to be deleted
+ */
 void Graph::removeVertex(int vert_num) {
     //go through the adjacency list and each vertex's vector of edges
     //do the following:
@@ -65,7 +69,11 @@ void Graph::removeVertex(int vert_num) {
     //this function doesn't need to touch those variables
 }
 
-
+/** 
+ * given two vertex numbers, finds if there is an edge in edges_to_hues_dance map. if there is, delete that edge
+ * @param vert_num1 vertex number of the first vertex chosen
+ * @param vert_num2 vertex number of the second vertex chosen
+ */
 void Graph::removeEdgeDance(int vert_num1, int vert_num2) {
     Vertex v1 = findVertex(vert_num1);
     Vertex v2 = findVertex(vert_num2);
@@ -79,6 +87,11 @@ void Graph::removeEdgeDance(int vert_num1, int vert_num2) {
     
 }
 
+/** 
+ * given two vertex numbers, finds if there is an edge in edges_to_hues_acc map. if there is, delete that edge
+ * @param vert_num1 vertex number of the first vertex chosen
+ * @param vert_num2 vertex number of the second vertex chosen
+ */
 void Graph::removeEdgeAcc(int vert_num1, int vert_num2) {
     Vertex v1 = findVertex(vert_num1);
     Vertex v2 = findVertex(vert_num2);
@@ -91,6 +104,12 @@ void Graph::removeEdgeAcc(int vert_num1, int vert_num2) {
     
 }
 
+
+/** 
+ * given two vertex numbers, finds if there is an edge in edges_to_hues_energy map. if there is, delete that edge
+ * @param vert_num1 vertex number of the first vertex chosen
+ * @param vert_num2 vertex number of the second vertex chosen
+ */
 void Graph::removeEdgeEnergy(int vert_num1, int vert_num2) {
     Vertex v1 = findVertex(vert_num1);
     Vertex v2 = findVertex(vert_num2);

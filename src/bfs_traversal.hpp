@@ -1,19 +1,23 @@
 #include "bfs_traversal.h"
 #include "adjacencylist.h"
 
-//Input: Graph g
-//Output: labeling of the edges on G as Discovery and cross edges
+
+/** 
+ * Goes through the entire graph through BFS traversal, 
+ * returns the number of vertices traversed (should be the total number of vertices in the graph)
+ */
+/* for each (Vertex v: g.vertices()):
+        setLabel(v, UNEXPLORED)
+    for each (Edge e: G.edges()):
+        setLabel(e, UNEXPLORED)
+    for each (Vertex v: G.vertices()): {
+        if (getLabel(v) == UNEXPLORED)
+            BFS(g, v)
+    }
+*/
 int Graph::BFSTraversal() {
     // std::cout << "BFS START!" << std::endl;
-    /* for each (Vertex v: g.vertices()):
-            setLabel(v, UNEXPLORED)
-        for each (Edge e: G.edges()):
-            setLabel(e, UNEXPLORED)
-        for each (Vertex v: G.vertices()): {
-            if (getLabel(v) == UNEXPLORED)
-                BFS(g, v)
-        }
-    */
+
     int num_nodes = 0;
     //set all vertices and edges to UNEXPLORED
     for (size_t i = 0; i < vertices.size(); ++i) {
@@ -24,14 +28,6 @@ int Graph::BFSTraversal() {
                 //setLabel(v.edges[i], "UNEXPLORED");
             }
     }
-
-    /*for (Vertex v: vertices) {
-            std::cout << "vert " << v.vert_num << ": " << v.label << std::endl;
-            for (size_t i = 0; i < v.edges.size(); ++i) {
-                std::cout << "edge " << v.edges[i].dest << ": " << v.edges[i].label << std::endl;
-            }
-    }*/
-
 
     for (size_t i = 0 ; i < vertices.size(); ++i) {
             if (getLabel(vertices[i]) == "UNEXPLORED") {
@@ -44,25 +40,33 @@ int Graph::BFSTraversal() {
    
 }
 
-void Graph::helperBFS(Vertex v, int& num_nodes) {
-    /*
-        queue q
-        setLabel(v, VISITED)
-        q.enqueue(v)
 
-        while(!q.empty()) {
-            v = q.dequeue()
-            for each (Vertex w: g.adjacent(v)) {
-                if (getLabel(w) == UNEXPLORED) {
-                    setLabel(v, w, DISCOVERY)
-                    setLabel(w, VISITED)
-                    q.enqueue(w)
-                }   else if (getLabel(v, w) == UNEXPLORED) {
-                    setLabel(v, w, CROSS)
-                }
+/** 
+ *  helper function for BFS traversal
+ *  helps BFS traversal function go through the selected vertex's adjacent vertices
+ *  @param v selected Vertex
+ *  @param num_nodes int that counts the number of nodes we traverse through
+ */
+/*
+    queue q
+    setLabel(v, VISITED)
+    q.enqueue(v)
+
+    while(!q.empty()) {
+        v = q.dequeue()
+        for each (Vertex w: g.adjacent(v)) {
+            if (getLabel(w) == UNEXPLORED) {
+                setLabel(v, w, DISCOVERY)
+                setLabel(w, VISITED)
+                q.enqueue(w)
+            }   else if (getLabel(v, w) == UNEXPLORED) {
+                setLabel(v, w, CROSS)
             }
         }
-    */
+    }
+*/
+void Graph::helperBFS(Vertex v, int& num_nodes) {
+
    std::queue<Vertex> q;
    setLabel(v, "VISITED");
     num_nodes++;
