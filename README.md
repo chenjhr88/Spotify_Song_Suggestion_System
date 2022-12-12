@@ -24,9 +24,7 @@ To build and run (make sure you are in the Docker container):
 6. Enter song title you wish to find a song recommendation for
 7. After given a recommendation, you have the opportunity to input another song or quit the program
 
-## Tests
 
-Test files can be found under the `tests/` directory.
 
 ## Repo Structure 
 
@@ -34,6 +32,10 @@ Test files can be found under the `tests/` directory.
 
 Our test data was taken using Spotify API and translated into a CSV file, stored as a .csv file in the `data/` directory.
 https://www.kaggle.com/datasets/mrmorj/dataset-of-songs-in-spotify
+
+### Tests
+
+Test files can be found under the `tests/` directory.
 
 ### Documents
 
