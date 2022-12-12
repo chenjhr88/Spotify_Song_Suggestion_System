@@ -1,4 +1,4 @@
-# CS225 Final Project: Song Suggestion System
+# CS225 Final Project: $S^{4}$ (Spotify Song Suggestion System)
 <p align="center">
   <a href="#project-summary">Project Summary</a> •
   <a href="#running-instructions">Running Instructions</a> •
@@ -7,13 +7,13 @@
 
 ## Project Summary
 
-Our proposed final project is to recommend new songs for people using Spotify.
+Our proposed final project is to recommend new songs for people based on a user inputted song and relationship category.
 
 ## Running Instructions
 
 ### Code
 
-All code files can be found in the `src/` directory. To run the code:
+Code files can be found in the `src/` directory and the main method can be found within the `maim/` directory. To run the code:
 
 To build and run (make sure you are in the Docker container):
 1. `mkdir build`
@@ -23,6 +23,10 @@ To build and run (make sure you are in the Docker container):
 5. `./main`
 6. Enter song title you wish to find a song recommendation for
 7. After given a recommendation, you have the opportunity to input another song or quit the program
+
+## Tests
+
+Test files can be found under the `tests/` directory.
 
 ## Repo Structure 
 
