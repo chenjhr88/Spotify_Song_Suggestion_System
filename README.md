@@ -20,7 +20,7 @@ To build and run the code (make sure you are in and running the Docker container
 2. `cd build`
 3. `cmake ..`
 4. `make`
-5. `./main`
+5. `./main [dataset]` which is "../data/genres_v2.csv" in our case
 6. Enter song title you wish to find a song recommendation for
 7. After given a recommendation, you have the opportunity to input another song or quit the program
 
