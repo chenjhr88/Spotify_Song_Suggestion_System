@@ -60,7 +60,7 @@ All feedback from our project mentor can be found in the `feedback/` directory.
 All code written for our project can be found in the `src/` directory.
 
 ### Presentation Deliverables
-Results Markdown File: https://github.com/chenjhr88/cs225_final_proj/blob/main/results.md
-Presentation Video: https://mediaspace.illinois.edu/media/t/1_y47e7qhw
+- Results Markdown File: https://github.com/chenjhr88/cs225_final_proj/blob/main/results.md
+- Presentation Video: https://mediaspace.illinois.edu/media/t/1_y47e7qhw
 
 
