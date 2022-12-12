@@ -6,6 +6,8 @@ int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cerr << "Please follow the following format when running main: " << argv[0] << " [input_file]"
               << std::endl;
+        std::cout << "Also make sure your .csv file follows the format of \"../data/genres_v2.csv\"!" << std::endl;
+        std::cout << "Ending program" << std::endl;
         return 1;
     }
     //Use "../data/genres_v2.csv"
@@ -14,6 +16,7 @@ int main(int argc, char* argv[]) {
     if (input_file.substr(input_file.length() - 4, input_file.length()) != ".csv") {
         std::cout << "Your " << input_file << " does not end with .csv!" << std::endl;
         std::cout << "HINT: You can use \"../data/genres_v2.csv\" as an example!" << std::endl;
+        std::cout << "Also make sure your .csv file follows the format of \"../data/genres_v2.csv\"!" << std::endl;
         std::cout << "Ending program" << std::endl;
         return 1;
     }
