@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Ending program" << std::endl;
         return 1;
     }
-    //Use "../data/genres_v2.csv"
+    //Use "../data/genres_v2.csv" as example
     std::string input_file = static_cast<std::string>(argv[1]);
 
     if (input_file.substr(input_file.length() - 4, input_file.length()) != ".csv") {
