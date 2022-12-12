@@ -44,3 +44,7 @@ Our signed contract, development log, project report, etc. can be found in the `
 ### Feedback
 
 All feedback from our project mentor can be found in the `feedback/` directory.
+
+### Code
+All code written for our project can be found in the '/src' directory.
+
