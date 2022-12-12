@@ -1,5 +1,5 @@
 #include <iostream>
-#include "adjacencylist.cpp"
+#include "graph.cpp"
 #include "bfs_traversal.hpp"
 
 int main() {

@@ -1,18 +1,17 @@
 #include <catch2/catch_test_macros.hpp>
 
 //set compiler path to fix?
-//lmao nevermind
 #include <iostream>
 #include <fstream>
 #include <ctype.h>
 #include <vector>
 #include <time.h>
-#include "adjacencylist.cpp"
+#include "graph.cpp"
 #include "bfs_traversal.hpp"
 #include "remove_vertex.h"
 #include "remove_vertex.hpp"
 #include <utility>
-//working on - jason
+
 
 
 bool removeVertHelperTest(Graph g, int vert_num) {
@@ -78,7 +77,7 @@ TEST_CASE("Read From CSV Test", "[valgrind][weight=2][csv]")
     REQUIRE(g.findVertex(0).song_name == expected.song_name);
 }
 
-TEST_CASE("BFS Test 1", "[valgrind][weight=1]")
+TEST_CASE("BFS Test 1: BFS Traversal of Graph with only vertices and no edges", "[valgrind][weight=1]")
 {
     Graph g;
     for (int i = 0; i < 5; ++i) {
@@ -92,7 +91,7 @@ TEST_CASE("BFS Test 1", "[valgrind][weight=1]")
     REQUIRE(num_n == 5);
 }
 
-TEST_CASE("BFS Test 2", "[valgrind][weight=1]")
+TEST_CASE("BFS Test 2: BFS Traversal of Graph with vertices and edges", "[valgrind][weight=1]")
 {
     Graph g;
     for (int i = 0; i < 2; ++i) {
@@ -104,11 +103,6 @@ TEST_CASE("BFS Test 2", "[valgrind][weight=1]")
     
     g.setAdjacencyMatrix(g.getVertices().size());
 
-    /*for (unsigned i = 0; i < g.getVertices().size(); i++) {
-        for (unsigned j = 0; j < g.getVertices().size(); j++) {
-            
-        }
-    }*/
     g.insertEdge(1, 0);
     g.insertEdge(0, 1);
 
@@ -117,7 +111,7 @@ TEST_CASE("BFS Test 2", "[valgrind][weight=1]")
     REQUIRE(num_n == 2);
 }
 
-TEST_CASE("BFS Test 3", "[valgrind][weight=1]")
+TEST_CASE("BFS Test 3: BFS Traversal of Graph with edges and more vertices", "[valgrind][weight=1]")
 {
     Graph g;
     for (int i = 0; i < 3; ++i) {
@@ -129,11 +123,6 @@ TEST_CASE("BFS Test 3", "[valgrind][weight=1]")
     
     g.setAdjacencyMatrix(g.getVertices().size());
 
-    /*for (unsigned i = 0; i < g.getVertices().size(); i++) {
-        for (unsigned j = 0; j < g.getVertices().size(); j++) {
-            
-        }
-    }*/
     g.insertEdge(1, 0);
     g.insertEdge(0, 1);
 
@@ -224,7 +213,6 @@ TEST_CASE("Test removeVertex for graph with edges", "[reVe2]") {
     int to_remove = 0;
     std::cout << "remove vert 0" << std::endl;
     g.removeVertex(to_remove);
-    
     
     REQUIRE(removeVertHelperTest(g, to_remove) == true);
     printAdjMatrix(g);

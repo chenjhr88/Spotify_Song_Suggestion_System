@@ -1,5 +1,4 @@
 #include "bfs_traversal.h"
-#include "adjacencylist.h"
 
 
 /** 

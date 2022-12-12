@@ -1,3 +1,3 @@
 #pragma once
-#include "adjacencylist.h"
+#include "graph.h"
 #include <queue>

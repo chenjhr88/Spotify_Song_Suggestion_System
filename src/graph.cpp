@@ -1,4 +1,4 @@
-#include "adjacencylist.h"
+#include "graph.h"
 
 using namespace std;
 
@@ -41,7 +41,7 @@ vector<vector<int>> Graph::getAdjacencyList() {
  * Changes the hue on the edge between two vertices (songs) based on the factor inputted by the user
  * The default hue along the edge for connected nodes is the averge factor (dancebility, acousticness, energy) value for the songs
  * For songs with no edge connecting them, the hue is zero, and this algorithm will not be called during the map build
- * Changes the hue for map<pair<string, string>, int> edges_to_hues_dance, edges_to_hues_acc, edges_to_hues_energy
+ * Changes the hue for map<pair<string, string>, double> edges_to_hues_dance, edges_to_hues_acc, edges_to_hues_energy
  * @param song1 which is the first vertex accounted for
  * @param song2 which is the second vertex accounted for
  * @param factor which is inputted by the user (ie. dancebility, acousticness, energy)
