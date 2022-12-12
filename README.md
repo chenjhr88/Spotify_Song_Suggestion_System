@@ -15,7 +15,7 @@ Our proposed final project is to recommend new songs for people based on a user 
 
 Code files can be found in the `src/` directory and the main method can be found within the `maim/` directory. To run the code:
 
-To build and run (make sure you are in the Docker container):
+To build and run the code (make sure you are in and running the Docker container):
 1. `mkdir build`
 2. `cd build`
 3. `cmake ..`
@@ -24,9 +24,20 @@ To build and run (make sure you are in the Docker container):
 6. Enter song title you wish to find a song recommendation for
 7. After given a recommendation, you have the opportunity to input another song or quit the program
 
+### Test Cases
+Test files can be found in the `tests/` directory and the main method can be found within the `maim/` directory. To run the code:
+
+To build and make the tests (make sure you are in and running the Docker container):
+1. `mkdir build`
+2. `cd build`
+3. `cmake ..`
+4. `make test`
+5. `./test`
+6. Enter song title you wish to find a song recommendation for
+7. After given a recommendation, you have the opportunity to input another song or quit the program
 
 
-## Repo Structure 
+## Github Organization 
 
 ### Data
 
@@ -46,5 +57,10 @@ Our signed contract, development log, project report, etc. can be found in the `
 All feedback from our project mentor can be found in the `feedback/` directory.
 
 ### Code
-All code written for our project can be found in the '/src' directory.
+All code written for our project can be found in the `src/` directory.
+
+### Presentation Deliverables
+Results Markdown File: https://github.com/chenjhr88/cs225_final_proj/blob/main/results.md
+Presentation Video: https://mediaspace.illinois.edu/media/t/1_y47e7qhw
+
 
