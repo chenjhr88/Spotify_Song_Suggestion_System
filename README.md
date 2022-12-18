@@ -13,7 +13,7 @@ Our proposed final project is to recommend new songs for people based on a user 
 
 ### Code
 
-Code files can be found in the `src/` directory and the main method can be found within the `maim/` directory. To run the code:
+Code files can be found in the `src/` directory and the main method can be found within the `main/` directory. To run the code:
 
 To build and run the code (make sure you are in and running the Docker container):
 1. `mkdir build`
@@ -25,7 +25,7 @@ To build and run the code (make sure you are in and running the Docker container
 7. After given a recommendation, you have the opportunity to input another song or quit the program
 
 ### Test Cases
-Test files can be found in the `tests/` directory and the main method can be found within the `maim/` directory. To run the code:
+Test files can be found in the `tests/` directory and the main method can be found within the `main/` directory. To run the code:
 
 To build and make the tests (make sure you are in and running the Docker container):
 1. `mkdir build`
