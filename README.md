@@ -1,4 +1,4 @@
-# CS225 Final Project: $S^{4}$ (Spotify Song Suggestion System)
+# $S^{4}$ (Spotify Song Suggestion System)
 <p align="center">
   <a href="#project-summary">Project Summary</a> •
   <a href="#running-instructions">Running Instructions</a> •
